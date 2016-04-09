@@ -3,16 +3,15 @@
 Disk::Disk() {
 	xVel = 0;
 	yVel = 0;
-}
-
-void Disk::Init(float x, float y, float xVel, float yVel, bool is_player_one) {
-	this->x = x;
-	this->y = y;
 	this->width = DISK_WIDTH;
 	this->height = DISK_HEIGHT;
+}
+
+void Disk::Init(float x, float y, float xVel, float yVel) {
+	this->x = x;
+	this->y = y;
 	this->xVel = xVel;
 	this->yVel = yVel;
-	this->player_one_threw = is_player_one;
 }
 
 void Disk::on_collision(Entity* other_ptr) {
@@ -54,17 +53,15 @@ entity_type Disk::get_type(){
 }
 
 void Disk::Update(int ticks) {
-	if (y < 0 || y >HEIGHT - height) {
+	if (y < 0 || y > HEIGHT - height) {
 		//flip velocity if went over edges
 		yVel *= -1;
+		// Rest the disk y if out of bounds
+		y = y < 0 ? 0 : HEIGHT - height;
 	}
 
 	x += (xVel * ticks) / 1000.f; //ticks in ms so dived by 1000 for pixels per second
 	y += (yVel * ticks) / 1000.f;
 
 	animTime += ticks;
-}
-
-bool Disk::did_player_one_throw() {
-	return player_one_threw;
 }

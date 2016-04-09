@@ -1,4 +1,4 @@
-#include "Animation.h"
+#include "../include/Animation.h"
 #include <string>
 Animation::Animation()
 {
@@ -12,12 +12,12 @@ void Animation::addAnim(int frame, int time){
     animPair a;
     a.frame = frame;
     a.time = time;
-    data.insert(a);
+    //data.insert(a);
     length+=time;
 }
 int Animation::getFrame(int time){
     int a = time%length;
-    for(int i = 0; i < data.size()){
+	for (int i = 0; i < data.size();){
         a-=data.at(i).time;
         if(a<=0)
         {

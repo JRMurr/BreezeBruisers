@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "../STexture.h"
 #include "../SpriteSheet.h"
+#include "../Player.h"
 
 
 class MainState : public GameState {
@@ -13,6 +14,8 @@ class MainState : public GameState {
 		// The sprite sheet
 		STexture fieldTexture;
 		SpriteSheet fieldSheet;
+		// Player Pointer
+		Player *player;
         //Singleton
         MainState();
 

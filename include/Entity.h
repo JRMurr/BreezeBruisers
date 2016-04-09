@@ -11,6 +11,9 @@ class Entity {
 		int width, height;
 		// TODO Sprite sheet
 		// SpriteSheet *s;
+
+
+		SDL_Rect mCollider; //used for collison detection
 	public:
 		virtual void Update() = 0;
 		virtual void Draw(SDL_Renderer*) = 0;

@@ -1,10 +1,9 @@
 #include "../include/SpriteSheet.h"
 
-void SpriteSheet::init(STexture* t, int tw, int th, int sw, int sh)
+void SpriteSheet::init(const char *texture_path, int tw, int th, int sw, int sh)
 {
-    tex = t;
-    if(tex == NULL){
-        printf("WARNING: SpriteSheet texture null");
+	if (!tex.load(texture_path)){
+        printf("WARNING: SpriteSheet texture failed to load");
     }
     totalWidth = tw;
     totalHeight = th;
@@ -16,9 +15,7 @@ void SpriteSheet::init(STexture* t, int tw, int th, int sw, int sh)
 
     //ctor
 }
-SpriteSheet::SpriteSheet(){
-    tex = NULL;
-}
+SpriteSheet::SpriteSheet(){}
 
 SpriteSheet::~SpriteSheet()
 {
@@ -33,6 +30,7 @@ SDL_Rect SpriteSheet::getSprite(int num){
     r.h = spriteHeight;
 
     return r;
-
 }
+
+SDL_Texture *SpriteSheet::getTexture() { return tex; }
 

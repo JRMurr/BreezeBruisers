@@ -6,6 +6,9 @@
 
 SDL_Renderer *StateManager::screen = NULL;
 
+//!!!!@@@TODO check for collisions and call on_collision on the correct entities
+
+
 // Initiate game
 int StateManager::Init() {
     // Initiate video   TODO initialize everything

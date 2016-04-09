@@ -5,14 +5,16 @@
 #include <stdio.h>
 #include "../STexture.h"
 #include "../SpriteSheet.h"
+#include "../Player.h"
 
 
 class MainState : public GameState {
     private:
 		int totalTicks;
 		// The sprite sheet
-		STexture fieldTexture;
 		SpriteSheet fieldSheet;
+		// Player
+		Player player;
         //Singleton
         MainState();
 

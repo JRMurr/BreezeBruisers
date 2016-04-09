@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include "../include/states/StateManager.h"
 #include "../include/states/MainState.h"
+#include "../include/states/MainMenu.h"
 
 int main(int argc, char** argv) {
 	StateManager game;
@@ -8,7 +9,7 @@ int main(int argc, char** argv) {
 		printf("An error occured during init");
 		game.Quit();
 	}
-	game.PushState(MainState::Instance());
+	game.PushState(MainMenu::Instance());
 	while (!game.quitting()) {
 		game.Event();
 		game.Update();

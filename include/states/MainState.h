@@ -6,7 +6,8 @@
 #include "../STexture.h"
 #include "../SpriteSheet.h"
 #include "../Player.h"
-
+#include "../Entity.h"
+#include <vector> //used for list of entities 
 
 class MainState : public GameState {
     private:
@@ -17,7 +18,8 @@ class MainState : public GameState {
 		Player player;
         //Singleton
         MainState();
-
+		//list of entites
+		std::vector<Entity> eList;
     public:
         // Init and clean up
 		void Init(SDL_Renderer*);

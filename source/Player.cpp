@@ -75,6 +75,12 @@ void Player::move_player(float input_dir_x, float input_dir_y) {
 
 		//currentAnimation = sheet.getAnim("RUNUP");
 
+		if(xVel == 0 && yVel == 0){
+            if(x >= WIDTH/2)
+                currentAnimation = sheet.getAnim("IDLELEFT");
+            if(x< WIDTH/2)
+                currentAnimation = sheet.getAnim("IDLERIGHT");
+		}
 		if(yVel < 0)
             currentAnimation = sheet.getAnim("RUNUP");
         if(yVel > 0)
@@ -87,6 +93,7 @@ void Player::move_player(float input_dir_x, float input_dir_y) {
             currentAnimation = sheet.getAnim("IDLERIGHT");
         if(xVel == 0 && yVel == 0 && currentAnimation == sheet.getAnim("RUNLEFT"))
             currentAnimation = sheet.getAnim("IDLELEFT");
+
 
 	}
 }

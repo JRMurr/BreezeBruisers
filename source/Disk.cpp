@@ -13,6 +13,13 @@ void Disk::Init(float x, float y, float xVel, float yVel) {
 	this->xVel = xVel;
 	this->yVel = yVel;
 	this->on_player = false;
+
+	sheet.init("resources/disc.png", 96, 96, 48, 48);
+    Animation Idle;
+	Idle.init("IDLE");
+	Idle.addAnim(0, 2, 50);
+	sheet.addAnim("IDLE", Idle);
+	currentAnimation = sheet.getAnim("IDLE");
 }
 
 void Disk::on_collision(Entity* other_ptr, int) {
@@ -42,14 +49,15 @@ void Disk::on_collision(Entity* other_ptr, int) {
 
 void Disk::Draw(SDL_Renderer *screen) {
 	if (!on_player) {
-		/*SDL_Rect dst;
+		SDL_Rect dst;
 		dst.x = x;
 		dst.y = y;
 		dst.w = width;
 		dst.h = height;
 		SDL_Rect src = sheet.getSprite(currentAnimation->getFrame(animTime));
-		SDL_RenderCopy(screen, sheet.getTexture(), &src, &dst);*/
+		SDL_RenderCopy(screen, sheet.getTexture(), &src, &dst);
 
+		/*
 		//!!!TMP
 		SDL_Rect dst;
 		dst.x = x;
@@ -58,6 +66,7 @@ void Disk::Draw(SDL_Renderer *screen) {
 		dst.h = height;
 		SDL_SetRenderDrawColor(screen, 255, 255, 255, 255);
 		SDL_RenderFillRect(screen, &dst);
+		*/
 	}
 }
 
@@ -79,5 +88,5 @@ void Disk::Update(int ticks) {
 
 		animTime += ticks;
 	}
-	
+
 }

@@ -1,8 +1,9 @@
 # depslib dependency file v1.0
-1460179635 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\main.cpp
+1460217713 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\main.cpp
 	<SDL.h>
 	"../include/states/StateManager.h"
 	"../include/states/MainState.h"
+	"../include/states/MainMenu.h"
 
 1451768294 c:\users\kevin_000\desktop\coding\c++\sdl\sdl2-2.0.4\i686-w64-mingw32\include\sdl2\sdl.h
 	"SDL_main.h"
@@ -342,27 +343,29 @@
 1460178453 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\utilities\timer.h
 	<SDL.h>
 
-1460183148 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\define.h
+1460222345 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\define.h
 
 1460178453 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\stexture.h
 	<SDL.h>
 	<SDL_image.h>
 	<stdio.h>
 
-1460182327 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\states\mainstate.h
+1460217713 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\states\mainstate.h
 	"GameState.h"
 	<stdio.h>
 	"../STexture.h"
 	"../SpriteSheet.h"
+	"../Player.h"
 
 1460178453 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\states\gamestate.h
 	<SDL.h>
 	"StateManager.h"
 
-1460183528 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\states\mainstate.cpp
+1460222419 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\states\mainstate.cpp
 	"../../include/states/MainState.h"
+	"../../include/Define.h"
 
-1460179635 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\states\statemanager.cpp
+1460217713 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\states\statemanager.cpp
 	"../../include/states/StateManager.h"
 	"../../include/states/GameState.h"
 	"../../include/STexture.h"
@@ -374,10 +377,12 @@
 1460179635 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\utilities\timer.cpp
 	"../../include/utilities/Timer.h"
 
-1460183834 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\spritesheet.cpp
+1460221502 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\spritesheet.cpp
 	"../include/SpriteSheet.h"
+	<string>
+	<map>
 
-1460187443 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\spritesheet.h
+1460220937 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\spritesheet.h
 	<map>
 	"../include/STexture.h"
 	<SDL.h>
@@ -385,10 +390,47 @@
 	<string.h>
 	"../include/Animation.h"
 
-1460186927 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\animation.cpp
-	"Animation.h"
+1460222188 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\animation.cpp
+	"../include/Animation.h"
+	<string>
 
-1460188974 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\animation.h
+1460217695 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\animation.h
 	<vector>
 	<string>
+
+1460217713 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\entity.cpp
+	"..\include\Entity.h"
+
+1460221959 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\entity.h
+	<SDL.h>
+	"SpriteSheet.h"
+	"Animation.h"
+
+1460217713 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\player.h
+	<SDL.h>
+	"Entity.h"
+
+1460217713 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\states\mainmenu.h
+	"GameState.h"
+	<stdio.h>
+	"../STexture.h"
+	"../utilities/Button.h"
+	"MainState.h"
+	<vector>
+
+1460217713 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\utilities\button.h
+	<SDL.h>
+	"../STexture.h"
+	"../states/GameState.h"
+
+1460222617 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\player.cpp
+	"../include/Player.h"
+	<math.h>
+	"../include/Define.h"
+
+1460217713 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\states\mainmenu.cpp
+	"../../include/states/MainMenu.h"
+
+1460217713 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\utilities\button.cpp
+	"../../include/utilities/Button.h"
 

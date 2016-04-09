@@ -1,13 +1,24 @@
 #include "../include/Player.h"
 #include <math.h>       /* sqrt  and pow*/
-
+#include "../include/Define.h"
 static SpriteSheet sheet1;
 
 #define SPEED 300
 
 Player::Player() {
 	// TODO char array
-	sheet1.init("resources/playa.png", 32, 32, 32, 32);
+	sheet1.init("resources/Monster-squirrel.png", 256, 256, 32, 32);
+	Animation a;
+	a.init("IDLERIGHT");
+	a.addAnim(0,100);
+	a.addAnim(1,100);
+	a.addAnim(2,100);
+	a.addAnim(3,100);
+	a.addAnim(4,100);
+	a.addAnim(5,100);
+	a.addAnim(6,100);
+	a.addAnim(7,100);
+	sheet1.addAnim("IDLERIGHT",a);
 }
 
 void Player::Init(float x, float y, int character) {
@@ -23,7 +34,7 @@ void Player::Init(float x, float y, int character) {
 
 	has_disk = false;
 	time_disk_held = 0;
-	using_controller = false; //TMP!!!!! FIX !!!!! 
+	using_controller = false; //TMP!!!!! FIX !!!!!
 	dash_distance_travled = 0;
 
 	xVel = 0;
@@ -37,6 +48,8 @@ void Player::Init(float x, float y, int character) {
 	inputs[THROW] = SDL_SCANCODE_SPACE;
 	inputs[LOB] = SDL_SCANCODE_E;
 	inputs[SPECIAL] = SDL_SCANCODE_LSHIFT;
+
+	currentAnimation = sheet1.getAnim("IDLERIGHT");
 }
 
 void Player::move_player(float input_dir_x, float input_dir_y) {
@@ -63,6 +76,12 @@ void Player::move_player(float input_dir_x, float input_dir_y) {
 	}
 	else*/ {
 		//regular movement
+        //Normalize input
+        float l = sqrt(input_dir_x*input_dir_x + input_dir_y*input_dir_y);
+        if(l!=0){
+            input_dir_x/=l;
+            input_dir_y/=l;
+        }
 		xVel = input_dir_x * SPEED;	// TODO get walk speed from character array
 		yVel = input_dir_y * SPEED;
 	}
@@ -95,7 +114,7 @@ void Player::on_collision(Entity* other_ptr){
 			else
 				y -= yOverlap;
 		}
-		
+
 		{//left and top overlap checks
 			float other_right = other_size.x + other_size.width;
 			float other_bottom = other_size.y + other_size.height;
@@ -120,40 +139,37 @@ void Player::on_collision(Entity* other_ptr){
 void Player::handle_event(SDL_Event e){
 
 	const Uint8 *keystates = SDL_GetKeyboardState(NULL);
-
-	if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
-		SDL_Scancode eKey = e.key.keysym.scancode;
-		if (keystates[inputs[UP]]) {
-			move_player(0, -1);
-		}
-		if (keystates[inputs[RIGHT]]) {
-			move_player(1, 0);
-		}
-		if (keystates[inputs[LEFT]]) {
-			move_player(-1, 0);
-		}
-		if (keystates[inputs[DOWN]]) {
-			move_player(0, 1);
-		}
-		if (keystates[inputs[THROW]]) {
-
-		}
-		if (keystates[inputs[LOB]]) {
-
-		}
-		if (keystates[inputs[SPECIAL]]) {
-
-		}
-	} else if (e.type == SDL_KEYUP && e.key.repeat == 0) {
-		//maybe make func so dashing is fucked when this happens
-		xVel = 0;
-		yVel = 0;
-	}
+    float tx=0, ty=0;
+    if (keystates[inputs[UP]]) {
+        ty-=1;
+    }
+    if (keystates[inputs[RIGHT]]) {
+        tx+=1;
+    }
+    if (keystates[inputs[LEFT]]) {
+        tx-=1;
+    }
+    if (keystates[inputs[DOWN]]) {
+        ty+=1;
+    }
+    move_player(tx,ty);
 }
 
 void Player::Update(int ticks) {
 	x += (xVel * ticks) / 1000.f; //ticks in ms so dived by 1000 for pixels per second
-	y += (yVel * ticks) / 1000.f; 
+	y += (yVel * ticks) / 1000.f;
+
+	animTime+=ticks;
+    //printf("anim- %d \n",animTime);
+	if(x<=0)
+        x = 0;
+    if(x>WIDTH-width)
+        x = WIDTH-width;
+    if(y<=0)
+        y =0;
+    if(y>HEIGHT-height)
+        y = HEIGHT-height;
+
 }
 
 entity_type Player::get_type()
@@ -167,7 +183,7 @@ void Player::Draw(SDL_Renderer *screen) {
 	dst.y = y;
 	dst.w = width;
 	dst.h = height;
-	SDL_Rect src = sheet->getSprite(0);
+	SDL_Rect src = sheet->getSprite(currentAnimation->getFrame(animTime));
 	SDL_RenderCopy(screen, sheet->getTexture(), &src, &dst);
 }
 

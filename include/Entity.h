@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include "SpriteSheet.h"
+#include "Animation.h"
 
 enum entity_type{
 	PLAYER,
@@ -25,6 +26,8 @@ class Entity {
 		// Sprite sheet
 		SpriteSheet *sheet;
 
+		int animTime = 0;
+        Animation* currentAnimation;
 	public:
 		virtual void Update(int ticks) = 0;
 		virtual void Draw(SDL_Renderer*) = 0;

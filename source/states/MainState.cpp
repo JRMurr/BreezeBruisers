@@ -1,5 +1,5 @@
 #include "../../include/states/MainState.h"
-
+#include "../../include/Define.h"
 MainState::MainState() {
 	fieldSheet.init("resources/field.png", 960, 540, 960, 540);
 }
@@ -29,8 +29,8 @@ void MainState::Draw(SDL_Renderer* screen) {
 	SDL_Rect dst;
 	dst.x = 0;
 	dst.y = 0;
-	dst.w = 640;
-	dst.h = 480;
+	dst.w = WIDTH;
+	dst.h = HEIGHT;
 	SDL_Rect src = fieldSheet.getSprite(0);
 	SDL_RenderCopy(screen, fieldSheet.getTexture(), &src, &dst);
 

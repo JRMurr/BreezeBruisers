@@ -1,5 +1,9 @@
 #include "../include/SpriteSheet.h"
+#include <string>
+#include <map>
 
+
+typedef std::map<std::string, int> Map;
 void SpriteSheet::init(const char *texture_path, int tw, int th, int sw, int sh)
 {
 	if (!tex.load(texture_path)){
@@ -14,6 +18,12 @@ void SpriteSheet::init(const char *texture_path, int tw, int th, int sw, int sh)
     rows = totalHeight/spriteHeight;
 
     //ctor
+}
+void SpriteSheet::addAnim(std::string n, Animation a){
+    animationMap[n] = a;
+}
+Animation* SpriteSheet::getAnim(std::string n){
+    return &(animationMap[n]);
 }
 SpriteSheet::SpriteSheet(){}
 

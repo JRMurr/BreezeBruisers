@@ -7,7 +7,7 @@
 #include "../SpriteSheet.h"
 #include "../Player.h"
 #include "../Entity.h"
-#include <vector> //used for list of entities 
+#include <vector> //used for list of entities
 
 class MainState : public GameState {
     private:
@@ -34,6 +34,8 @@ class MainState : public GameState {
         void Update(StateManager*, int);
         void Draw(SDL_Renderer*);
 
+        SDL_GameController* controlOne;
+        SDL_GameController* controlTwo;
         // Retrieve the instance
         static MainState* Instance() {
             static MainState instance;

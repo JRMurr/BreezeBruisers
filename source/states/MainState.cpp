@@ -98,7 +98,7 @@ bool MainState::check_collision(Entity * A, Entity * B){
 	leftA = a_size.x;
 	rightA = a_size.x + a_size.width;
 	topA = a_size.y;
-	bottomA = a_size.y + a_size.width;
+	bottomA = a_size.y + a_size.height;
 
 	//Calculate the sides of rect B
 	leftB = b_size.x;

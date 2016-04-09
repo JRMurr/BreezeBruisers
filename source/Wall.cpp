@@ -20,7 +20,7 @@ void Wall::Draw(SDL_Renderer* screen) {
 	dst.w = width;
 	dst.h = height;
 	SDL_SetRenderDrawColor(screen, 255, 255, 255, 255);
-	SDL_RenderDrawRect(screen, &dst);
+	SDL_RenderFillRect(screen, &dst);
 }
 
 entity_type Wall::get_type() {

@@ -7,7 +7,7 @@ MainState::MainState() {
 
 void MainState::Init(SDL_Renderer *screen) {
 	totalTicks = 0;
-	middle_wall.Init(WIDTH / 2, 0, 20, HEIGHT);
+	middle_wall.Init(WIDTH / 2 - 10, 0, 20, HEIGHT);
 	eList.push_back(&middle_wall);
 	bool pone = true;
 	for(int i = 0; i < SDL_NumJoysticks(); i++){

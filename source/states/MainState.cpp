@@ -7,6 +7,7 @@ MainState::MainState() {
 void MainState::Init(SDL_Renderer *screen) {
 	totalTicks = 0;
 	player.Init(0, 0, 0);
+	eList.push_back(&player);
 }
 void MainState::Cleanup() {
 }

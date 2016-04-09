@@ -2,25 +2,25 @@
 
 // Just load background
 MainMenu::MainMenu() {
-	background.load("resources/menu.png");
+	background.load("resources/menuBG.png");
 	buttonSheet.load("resources/buttons.png");
 	SDL_Rect offsets[2];
 	// The button offsets
 	offsets[0].x = 0;
 	offsets[0].y = 0;
-	offsets[0].w = 64*4;
-	offsets[0].h = 64;
-	offsets[1].x = 0;
-	offsets[1].y = 64;
-	offsets[1].w = 64*4;
-	offsets[1].h = 64;
-	Button first(offsets, MainState::Instance(), (WIDTH - offsets[0].w) / 2, (HEIGHT - offsets[0].h*BUTTON_NUMBER) / 2);
+	offsets[0].w = 100;
+	offsets[0].h = 100;
+	offsets[1].x = 100;
+	offsets[1].y = 0;
+	offsets[1].w = 100;
+	offsets[1].h = 100;
+	Button first(offsets, MainState::Instance(), ((WIDTH) / 3) - offsets[0].w/2, (HEIGHT - 100));
 	buttons.push_back(first);
-	offsets[0].x = 64*4;
-	offsets[0].y = 0;
-	offsets[1].x = 64*4;
-	offsets[1].y = 64;
-	Button second(offsets, NULL, (WIDTH - offsets[1].w) / 2, (HEIGHT - offsets[1].h*BUTTON_NUMBER) / 2 + offsets[1].h);
+	offsets[0].x = 0;
+	offsets[0].y = 100;
+	offsets[1].x = 100;
+	offsets[1].y = 100;
+	Button second(offsets, NULL, ((WIDTH) / 3)*2 - offsets[1].w/2, (HEIGHT - 100));
 	buttons.push_back(second);
 	buttonIndex = 0;
 	press = false;
@@ -84,7 +84,7 @@ void MainMenu::Draw(SDL_Renderer *screen) {
 	// Clear the screen
 	SDL_SetRenderDrawColor(screen, 0, 0, 0, 255);
 	SDL_RenderClear(screen);
-	
+
 	// background
 	SDL_RenderCopy(screen, background, NULL, NULL);
 	// draw buttons

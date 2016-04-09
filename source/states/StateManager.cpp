@@ -16,7 +16,10 @@ int StateManager::Init() {
         printf( "Unable to init SDL: %s\n", SDL_GetError() );
         return 1;
     }
-
+    if(SDL_Init(SDL_INIT_GAMECONTROLLER)<0){
+        printf( "Unable to init gamecontroller: %s\n", SDL_GetError() );
+        return 1;
+    }
 	if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG) {
 		printf("Unable to init SDL image: %s\n", IMG_GetError());
 		return 1;

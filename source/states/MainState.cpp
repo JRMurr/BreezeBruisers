@@ -15,7 +15,9 @@ void MainState::Pause() {}
 void MainState::Resume() {}
 
 void MainState::Event(StateManager* game, SDL_Event event) {
-	player.handle_event(event);
+    switch(event.type){
+    default: player.handle_event(event);
+    }
 }
 
 void MainState::Update(StateManager* game, int ticks) {

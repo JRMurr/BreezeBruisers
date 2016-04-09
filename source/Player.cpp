@@ -22,8 +22,8 @@ void Player::Init(float x, float y, int character) {
 	// TODO actual character sprite sheet
 	sheet = &sheet1;
 
-	width = 32;	// TODO get width from character array
-	height = 32;
+	width = 48;	// TODO get width from character array
+	height = 48;
 
 	has_disk = false;
 	time_disk_held = 0;

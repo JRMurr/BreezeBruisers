@@ -21,7 +21,7 @@ void Animation::addAnim(int frame, int time){
 int Animation::getFrame(int time){
     int a = time%length;
 
-	for (int i = 0; i < data.size();){
+	for (int i = 0; i < data.size(); i++){
         a-=data[i].time;
         printf("ah %d %d \n", a,i);
         if(a<=0)

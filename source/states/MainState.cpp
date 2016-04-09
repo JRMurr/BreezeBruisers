@@ -10,7 +10,7 @@ MainState::MainState() {
 
 void MainState::Init(SDL_Renderer *screen) {
 	totalTicks = 0;
-	fieldSheet.init(&fieldTexture,960,540,32,32);
+	fieldSheet.init(&fieldTexture,960,540,960,540);
 }
 void MainState::Cleanup() {
 }
@@ -33,8 +33,8 @@ void MainState::Draw(SDL_Renderer* screen) {
 	//SDL_RenderCopy(screen, spriteSheet, NULL, NULL);
 =======
 	SDL_Rect dst;
-	dst.x = 20;
-	dst.y = 100;
+	dst.x = 0;
+	dst.y = 0;
 	dst.w = 100;
 	dst.h = 100;
 	SDL_Rect src = fieldSheet.getSprite(0);

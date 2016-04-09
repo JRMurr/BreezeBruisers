@@ -15,7 +15,8 @@ class MainState : public GameState {
 		// The sprite sheet
 		SpriteSheet fieldSheet;
 		// Player
-		Player player;
+		Player playerOne;
+		Player playerTwo;
         //Singleton
         MainState();
 		//list of entites

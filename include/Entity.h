@@ -6,7 +6,8 @@
 enum entity_type{
 	PLAYER,
 	WALL,
-	DISK
+	DISK,
+	GOAL
 };
 
 
@@ -26,7 +27,7 @@ class Entity {
 		entity_type eType; //entity type enum
 
 	public:
-		virtual void Update() = 0;
+		virtual void Update(int ticks) = 0;
 		virtual void Draw(SDL_Renderer*) = 0;
 		entity_type get_type();
 		virtual void on_collision(Entity* other) = 0; //deals with collison of other entity

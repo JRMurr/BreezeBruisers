@@ -28,11 +28,13 @@ class Player : public Entity {
 		float throw_speed;	  //base throw speed of the character
 		float time_disk_held; //used as modifer to make disk thrown slower the longer its held
 
+		float xVel;
+		float yVel;
 
 	public:
-		virtual void Update() = 0;
+		void Update(int ticks);
 		virtual void Draw(SDL_Renderer*) = 0;
-		void move_player(float input_dir_x, float input_dir_y, int ticks);
+		void move_player(float input_dir_x, float input_dir_y);
 		void on_collision(Entity* other); //player deals with collison of other entity
 		void handle_event(SDL_Event event);
 		//entity_type get_type();

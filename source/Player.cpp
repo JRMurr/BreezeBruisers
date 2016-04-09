@@ -1,18 +1,21 @@
 #include "../include/Player.h"
 #include <math.h>       /* sqrt  and pow*/
 
-void Player::move_player(float input_dir_x, float input_dir_y, int ticks) {
+void Player::move_player(float input_dir_x, float input_dir_y) {
 	if (has_disk)
 		return; //dont move when has disk
 	if (is_dashing) {
+
+		//!!!FIX BEFORE ADDING DASHING SHIT WONT WORK YO PUT IN UPDATE!!!!!!!
+
 		//do dash stuff
 		if (dash_distance_travled < dash_distance) {
 			//only do stuff if still need to move more
-			float x_distance = (input_dir_x * dash_speed * ticks) / 1000.f;
-			float y_distance = (input_dir_y * dash_speed * ticks) / 1000.f;
+			float x_distance = input_dir_x * dash_speed;
+			float y_distance = input_dir_y * dash_speed;
 			dash_distance_travled += (float)sqrt(pow(x_distance, 2) + pow(y_distance, 2)); //based pythag thereom, good shit right there (chorus right there)
-			x += x_distance;
-			y += y_distance;
+			xVel += x_distance;
+			yVel += y_distance;
 		}
 		else {
 			//reset dash variables since dash distance has been covered
@@ -22,8 +25,8 @@ void Player::move_player(float input_dir_x, float input_dir_y, int ticks) {
 	}
 	else {
 		//regular movement
-		x += ((input_dir_x * walk_speed * ticks) / 1000.f); //ticks is miliseconds so divide by 1000
-		y += ((input_dir_y * walk_speed * ticks) / 1000.f);
+		xVel += input_dir_x * walk_speed;
+		yVel += input_dir_y * walk_speed;
 	}
 }
 
@@ -76,8 +79,31 @@ void Player::on_collision(Entity* other_ptr){
 	}
 }
 
-void Player::handle_event(SDL_Event event){
+void Player::handle_event(SDL_Event e){
+	if (e.type == SDL_KEYDOWN) {
+		SDL_Keycode eKey = e.key.keysym.sym;
+		if (eKey == inputs[UP]) {
+			move_player(0, 1);
+		}else if (eKey == inputs[RIGHT]) {
+			move_player(1, 0);
+		}else if (eKey == inputs[LEFT]) {
+			move_player(-1, 0);
+		}else if (eKey == inputs[DOWN]) {
+			move_player(0, -1);
+		}else if (eKey == inputs[THROW]) {
 
+		}else if (eKey == inputs[LOB]) {
+
+		}
+		else if (eKey == inputs[SPECIAL]) {
+
+		}
+	}
+}
+
+void Player::Update(int ticks) {
+	x += (xVel * ticks) / 1000.f; //ticks in ms so dived by 1000 for pixels per second
+	y += (yVel * ticks) / 1000.f; 
 }
 
 //entity_type Player::get_type()

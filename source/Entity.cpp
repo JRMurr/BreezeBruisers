@@ -1,10 +1,5 @@
 #include "..\include\Entity.h"
 
-entity_type Entity::get_type()
-{
-	return eType;
-}
-
 Size Entity::get_size()
 {
 	Size s;

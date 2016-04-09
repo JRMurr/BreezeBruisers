@@ -1,10 +1,20 @@
 #include "../include/Player.h"
 #include <math.h>       /* sqrt  and pow*/
 
+static SpriteSheet sheet1;
+
+Player::Player() {
+	// TODO char array
+	sheet1.init("resources/playa.png", 32, 32, 32, 32);
+}
+
 void Player::Init(float x, float y, int character) {
 	this->x = x;
 	this->y = y;
 	this->character = character;
+
+	// TODO actual character sprite sheet
+	sheet = &sheet1;
 
 	width = 32;	// TODO get width from character array
 	height = 32;
@@ -132,12 +142,18 @@ void Player::Update(int ticks) {
 	y += (yVel * ticks) / 1000.f; 
 }
 
-//entity_type Player::get_type()
-//{
-//	return PLAYER;
-//}
+entity_type Player::get_type()
+{
+	return PLAYER;
+}
 
 void Player::Draw(SDL_Renderer *screen) {
-
+	SDL_Rect dst;
+	dst.x = x;
+	dst.y = y;
+	dst.w = width;
+	dst.h = height;
+	SDL_Rect src = sheet->getSprite(0);
+	SDL_RenderCopy(screen, sheet->getTexture(), &src, &dst);
 }
 

@@ -34,13 +34,14 @@ class Player : public Entity {
 
 	public:
 		// Initialize player
+		Player();
 		void Init(float, float, int);
 		void Update(int ticks);
 		void Draw(SDL_Renderer*);
 		void move_player(float input_dir_x, float input_dir_y);
 		void on_collision(Entity* other); //player deals with collison of other entity
 		void handle_event(SDL_Event event);
-		//entity_type get_type();
+		entity_type get_type();
 		//void player_dash(float input_dir_x, float input_dir_y, int ticks);
 };
 

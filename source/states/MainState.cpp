@@ -6,6 +6,7 @@ MainState::MainState() {
 
 void MainState::Init(SDL_Renderer *screen) {
 	totalTicks = 0;
+	player.Init(0, 0, 0);
 }
 void MainState::Cleanup() {
 }
@@ -14,11 +15,12 @@ void MainState::Pause() {}
 void MainState::Resume() {}
 
 void MainState::Event(StateManager* game, SDL_Event event) {
-
+	player.handle_event(event);
 }
 
 void MainState::Update(StateManager* game, int ticks) {
 	totalTicks += ticks;
+	player.Update(ticks);
 }
 
 void MainState::Draw(SDL_Renderer* screen) {
@@ -30,7 +32,10 @@ void MainState::Draw(SDL_Renderer* screen) {
 	dst.w = 640;
 	dst.h = 480;
 	SDL_Rect src = fieldSheet.getSprite(0);
-	SDL_RenderCopy(screen,fieldSheet.getTexture(),&src,&dst);
+	SDL_RenderCopy(screen, fieldSheet.getTexture(), &src, &dst);
+
+	player.Draw(screen);
+
 	SDL_RenderPresent(screen);
 
 }

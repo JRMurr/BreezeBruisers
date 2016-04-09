@@ -16,7 +16,7 @@ STexture::~STexture() {
 
 // Create a blank texture
 bool STexture::create(int w, int h, int texture_access = SDL_TEXTUREACCESS_STREAMING) {
-	// Create the texture 
+	// Create the texture
 	texture = SDL_CreateTexture(StateManager::screen, SDL_PIXELFORMAT_RGBA8888, texture_access, w, h);
 	if (texture == NULL)
 		return false;

@@ -4,14 +4,14 @@
 #include <SDL.h>
 #include "Entity.h"
 
-#define DISK_WIDTH 32
-#define DISK_HEIGHT 32
+#define DISK_WIDTH 8
+#define DISK_HEIGHT 8
 
 class Disk : public Entity {
 	protected:
 		float xVel;
 		float yVel;
-
+		bool on_player; //used when collides with player so it wont be drawn
 	public:
 		Disk();
 		void Init(float x, float y, float xVel, float yVel);

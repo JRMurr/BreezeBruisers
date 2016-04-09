@@ -36,6 +36,10 @@ void MainState::Init(SDL_Renderer *screen) {
 	eList.push_back(&playerOne);
 	playerTwo.Init(400,0,0);
 	eList.push_back(&playerTwo);
+
+	//tmp disk stuff
+	disk.Init(5, HEIGHT / 2, 20, 100);
+	eList.push_back(&disk);
 }
 void MainState::Cleanup() {
 }
@@ -53,6 +57,7 @@ void MainState::Update(StateManager* game, int ticks) {
 	totalTicks += ticks;
 	playerOne.Update(ticks);
 	playerTwo.Update(ticks);
+	disk.Update(ticks);
 
 	//check for collisions
 	for (int j = 0; j < eList.size(); j++) {
@@ -80,6 +85,7 @@ void MainState::Draw(SDL_Renderer* screen) {
 	middle_wall.Draw(screen);
 	playerOne.Draw(screen);
     playerTwo.Draw(screen);
+	disk.Draw(screen);
 	SDL_RenderPresent(screen);
 
 }

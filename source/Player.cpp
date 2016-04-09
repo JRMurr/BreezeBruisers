@@ -102,8 +102,11 @@ void Player::on_collision(Entity* other_ptr, int ticks){
 	entity_type other_type = other_ptr->get_type();
 	if(other_type == DISK) {
 		//colides with disk
-		//destruct disk
+
+		//hide disk
 		has_disk = true;
+		xVel = 0;
+		yVel = 0;
 	}
 	else {
 		x -= xVel*(ticks / 1000.f);

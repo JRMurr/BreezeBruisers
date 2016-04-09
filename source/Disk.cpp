@@ -12,6 +12,7 @@ void Disk::Init(float x, float y, float xVel, float yVel) {
 	this->y = y;
 	this->xVel = xVel;
 	this->yVel = yVel;
+	this->on_player = false;
 }
 
 void Disk::on_collision(Entity* other_ptr, int) {
@@ -20,6 +21,7 @@ void Disk::on_collision(Entity* other_ptr, int) {
 		//set velocity to 0 and wait for player to do stuff
 		xVel = 0;
 		yVel = 0;
+		on_player = true;
 	}
 	else if (other_type == WALL) {
 		//add check to allow disk through middle wall but still hit obsticales that it should hit
@@ -39,13 +41,24 @@ void Disk::on_collision(Entity* other_ptr, int) {
 }
 
 void Disk::Draw(SDL_Renderer *screen) {
-	SDL_Rect dst;
-	dst.x = x;
-	dst.y = y;
-	dst.w = width;
-	dst.h = height;
-	SDL_Rect src = sheet.getSprite(currentAnimation->getFrame(animTime));
-	SDL_RenderCopy(screen, sheet.getTexture(), &src, &dst);
+	if (!on_player) {
+		/*SDL_Rect dst;
+		dst.x = x;
+		dst.y = y;
+		dst.w = width;
+		dst.h = height;
+		SDL_Rect src = sheet.getSprite(currentAnimation->getFrame(animTime));
+		SDL_RenderCopy(screen, sheet.getTexture(), &src, &dst);*/
+
+		//!!!TMP
+		SDL_Rect dst;
+		dst.x = x;
+		dst.y = y;
+		dst.w = width;
+		dst.h = height;
+		SDL_SetRenderDrawColor(screen, 255, 255, 255, 255);
+		SDL_RenderFillRect(screen, &dst);
+	}
 }
 
 entity_type Disk::get_type(){
@@ -53,15 +66,18 @@ entity_type Disk::get_type(){
 }
 
 void Disk::Update(int ticks) {
-	if (y < 0 || y > HEIGHT - height) {
-		//flip velocity if went over edges
-		yVel *= -1;
-		// Rest the disk y if out of bounds
-		y = y < 0 ? 0 : HEIGHT - height;
+	if (!on_player) {
+		if (y < 0 || y > HEIGHT - height) {
+			//flip velocity if went over edges
+			yVel *= -1;
+			// Rest the disk y if out of bounds
+			y = y < 0 ? 0 : HEIGHT - height;
+		}
+
+		x += (xVel * ticks) / 1000.f; //ticks in ms so dived by 1000 for pixels per second
+		y += (yVel * ticks) / 1000.f;
+
+		animTime += ticks;
 	}
-
-	x += (xVel * ticks) / 1000.f; //ticks in ms so dived by 1000 for pixels per second
-	y += (yVel * ticks) / 1000.f;
-
-	animTime += ticks;
+	
 }

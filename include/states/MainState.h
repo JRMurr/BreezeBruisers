@@ -8,6 +8,7 @@
 #include "../Player.h"
 #include "../Entity.h"
 #include "../Wall.h"
+#include "../Disk.h"
 #include <vector> //used for list of entities 
 
 class MainState : public GameState {
@@ -20,6 +21,9 @@ class MainState : public GameState {
 		Player playerTwo;
 		// Middle wall
 		Wall middle_wall;
+
+		Disk disk;
+
         //Singleton
         MainState();
 		//list of entites

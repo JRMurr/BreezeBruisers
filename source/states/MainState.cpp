@@ -7,7 +7,7 @@ MainState::MainState() {
 
 void MainState::Init(SDL_Renderer *screen) {
 	totalTicks = 0;
-	fieldSheet.init(&fieldTexture,640,480,640,480);
+	fieldSheet.init(&fieldTexture,960,540,960,540);
 }
 void MainState::Cleanup() {
 }

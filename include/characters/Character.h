@@ -9,6 +9,7 @@ typedef void (*Special)(void);
 // Number of characters
 enum Char_enum{
 	BREEZER1,
+	BREEZER2,
 	NUM_CHARACTERS
 };
 

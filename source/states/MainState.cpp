@@ -34,7 +34,7 @@ void MainState::Init(SDL_Renderer *screen) {
 	}
 	playerOne.Init(0, 0, 0);
 	eList.push_back(&playerOne);
-	playerTwo.Init(400,0,0);
+	playerTwo.Init(400,0,1);
 	eList.push_back(&playerTwo);
 	//tmp disk stuff
 	disk.Init(5, HEIGHT / 2, 20, 100);

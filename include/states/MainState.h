@@ -19,7 +19,7 @@ class MainState : public GameState {
         //Singleton
         MainState();
 		//list of entites
-		std::vector<Entity> eList;
+		std::vector<Entity*> eList;
     public:
         // Init and clean up
 		void Init(SDL_Renderer*);

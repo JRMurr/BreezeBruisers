@@ -1,0 +1,45 @@
+#ifndef MAINSTATE_H_INCLUDED
+#define MAINSTATE_H_INCLUDED
+
+#include "GameState.h"
+#include <stdio.h>
+#include "../STexture.h"
+#include "../Board.h"
+
+
+class MainState : public GameState {
+    private:
+		int totalTicks;
+		// The board
+		Board board;
+		// The current highlighted spot
+		int row, column;
+		// True if its reds turn yellow otherwise
+		bool turn;
+		// The sprite sheet
+		STexture spriteSheet;
+        //Singleton
+        MainState();
+		
+    public:
+        // Init and clean up
+		void Init(SDL_Renderer*);
+        void Cleanup();
+
+        // Pause and resume
+        void Pause();
+        void Resume();
+
+        // Main loop
+        void Event(StateManager*, SDL_Event);
+        void Update(StateManager*, int);
+        void Draw(SDL_Renderer*);
+
+        // Retrieve the instance
+        static MainState* Instance() {
+            static MainState instance;
+            return &instance;
+        }
+};
+
+#endif // MAINSTATE_H_INCLUDED

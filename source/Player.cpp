@@ -1,17 +1,9 @@
 #include "../include/Player.h"
 #include <math.h>       /* sqrt  and pow*/
 #include "../include/Define.h"
-static SpriteSheet sheet1;
-
-#define SPEED 300
 
 Player::Player() {
-	// TODO char array
-	sheet1.init("resources/Monster-squirrel.png", 256, 256, 32, 32);
-	Animation a;
-	a.init("IDLERIGHT");
-	a.addAnim(0,7,150);
-	sheet1.addAnim("IDLERIGHT",a);
+	
 }
 
 void Player::Init(float x, float y, int character) {
@@ -20,10 +12,15 @@ void Player::Init(float x, float y, int character) {
 	this->character = character;
 
 	// TODO actual character sprite sheet
-	sheet = &sheet1;
+	Character c = Character::CharArray[this->character];
+	sheet.init(c.sheetPath, c.width*8, c.height*8, c.width, c.height);
+	static Animation IdleAnim;
+	IdleAnim.init("IDLERIGHT");
+	IdleAnim.addAnim(0, 7, 150);
+	sheet.addAnim("IDLERIGHT", IdleAnim);
 
-	width = 32;	// TODO get width from character array
-	height = 32;
+	width = c.width;	// TODO get width from character array
+	height = c.height;
 
 	has_disk = false;
 	time_disk_held = 0;
@@ -42,7 +39,7 @@ void Player::Init(float x, float y, int character) {
 	inputs[LOB] = SDL_SCANCODE_E;
 	inputs[SPECIAL] = SDL_SCANCODE_LSHIFT;
 
-	currentAnimation = sheet1.getAnim("IDLERIGHT");
+	currentAnimation = sheet.getAnim("IDLERIGHT");
 }
 
 void Player::move_player(float input_dir_x, float input_dir_y) {
@@ -75,8 +72,9 @@ void Player::move_player(float input_dir_x, float input_dir_y) {
             input_dir_x/=l;
             input_dir_y/=l;
         }
-		xVel = input_dir_x * SPEED;	// TODO get walk speed from character array
-		yVel = input_dir_y * SPEED;
+		Character c = Character::CharArray[character];
+		xVel = input_dir_x * c.walkSpeed;	// TODO get walk speed from character array
+		yVel = input_dir_y * c.walkSpeed;
 	}
 }
 
@@ -176,7 +174,7 @@ void Player::Draw(SDL_Renderer *screen) {
 	dst.y = y;
 	dst.w = width;
 	dst.h = height;
-	SDL_Rect src = sheet->getSprite(currentAnimation->getFrame(animTime));
-	SDL_RenderCopy(screen, sheet->getTexture(), &src, &dst);
+	SDL_Rect src = sheet.getSprite(currentAnimation->getFrame(animTime));
+	SDL_RenderCopy(screen, sheet.getTexture(), &src, &dst);
 }
 

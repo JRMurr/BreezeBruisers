@@ -23,4 +23,4 @@ class Disk : public Entity {
 		bool did_player_one_throw();
 };
 
-#endif
+#endif 

@@ -19,9 +19,10 @@ class Player : public Entity {
 	protected:
 		//SDL_Event event; //for input from state manager
 		SDL_Keycode inputs[7]; //7 since thats how many inputs there are
+		// Which character they are
+		int character;
 		bool using_controller; 
 		bool has_disk; //player will act differntly when holding disk
-		float walk_speed, dash_speed, dash_distance; //movement varibales
 		bool is_dashing; //check to make sure player doesnt break out of dash animation
 		float dash_distance_travled; //used to keep track of how long the dash has been going
 
@@ -32,8 +33,10 @@ class Player : public Entity {
 		float yVel;
 
 	public:
+		// Initialize player
+		void Init(float, float, int);
 		void Update(int ticks);
-		virtual void Draw(SDL_Renderer*) = 0;
+		void Draw(SDL_Renderer*);
 		void move_player(float input_dir_x, float input_dir_y);
 		void on_collision(Entity* other); //player deals with collison of other entity
 		void handle_event(SDL_Event event);

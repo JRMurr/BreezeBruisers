@@ -12,17 +12,18 @@ class SpriteSheet
 {
     public:
         SpriteSheet();
-        void init(STexture*, int tw, int th, int sw, int sh);
+        void init(const char*, int tw, int th, int sw, int sh);
         virtual ~SpriteSheet();
 
-        STexture* tex;
-        int totalWidth, totalHeight, spriteWidth, spriteHeight;
-
         SDL_Rect getSprite(int num);
+
+		SDL_Texture *getTexture();
 
     protected:
 
     private:
+		STexture tex;
+		int totalWidth, totalHeight, spriteWidth, spriteHeight;
         int rows, cols;
         std::map<std::string, Animation> animationMap;
 };

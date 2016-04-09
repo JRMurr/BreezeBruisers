@@ -1,13 +1,11 @@
 #include "../../include/states/MainState.h"
 
 MainState::MainState() {
-	fieldTexture.load("resources/field.png");
-
+	fieldSheet.init("resources/field.png", 960, 540, 960, 540);
 }
 
 void MainState::Init(SDL_Renderer *screen) {
 	totalTicks = 0;
-	fieldSheet.init(&fieldTexture,960,540,960,540);
 }
 void MainState::Cleanup() {
 }
@@ -32,7 +30,7 @@ void MainState::Draw(SDL_Renderer* screen) {
 	dst.w = 640;
 	dst.h = 480;
 	SDL_Rect src = fieldSheet.getSprite(0);
-	SDL_RenderCopy(screen,fieldTexture,&src,&dst);
+	SDL_RenderCopy(screen,fieldSheet.getTexture(),&src,&dst);
 	SDL_RenderPresent(screen);
 
 }

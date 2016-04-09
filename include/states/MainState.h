@@ -12,10 +12,9 @@ class MainState : public GameState {
     private:
 		int totalTicks;
 		// The sprite sheet
-		STexture fieldTexture;
 		SpriteSheet fieldSheet;
-		// Player Pointer
-		Player *player;
+		// Player
+		Player player;
         //Singleton
         MainState();
 

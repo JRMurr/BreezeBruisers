@@ -1,14 +1,40 @@
 #include "../include/Player.h"
 #include <math.h>       /* sqrt  and pow*/
 
+void Player::Init(float x, float y, int character) {
+	this->x = x;
+	this->y = y;
+	this->character = character;
+
+	width = 32;	// TODO get width from character array
+	height = 32;
+
+	has_disk = false;
+	time_disk_held = 0;
+	using_controller = false; //TMP!!!!! FIX !!!!! 
+	dash_distance_travled = 0;
+
+	xVel = 0;
+	yVel = 0;
+
+	//controls wasd + space for throw, e for lob and Lshift for special
+	inputs[UP] = SDLK_w;
+	inputs[DOWN] = SDLK_s;
+	inputs[LEFT] = SDLK_a;
+	inputs[RIGHT] = SDLK_d;
+	inputs[THROW] = SDLK_SPACE;
+	inputs[LOB] = SDLK_e;
+	inputs[SPECIAL] = SDLK_LSHIFT;
+}
+
 void Player::move_player(float input_dir_x, float input_dir_y) {
 	if (has_disk)
 		return; //dont move when has disk
-	if (is_dashing) {
+	//if (is_dashing) {
 
 		//!!!FIX BEFORE ADDING DASHING SHIT WONT WORK YO PUT IN UPDATE!!!!!!!
 
-		//do dash stuff
+		/*do dash stuff
 		if (dash_distance_travled < dash_distance) {
 			//only do stuff if still need to move more
 			float x_distance = input_dir_x * dash_speed;
@@ -23,10 +49,10 @@ void Player::move_player(float input_dir_x, float input_dir_y) {
 			is_dashing = false;
 		}
 	}
-	else {
+	else*/ {
 		//regular movement
-		xVel += input_dir_x * walk_speed;
-		yVel += input_dir_y * walk_speed;
+		xVel += input_dir_x * 100;	// TODO get walk speed from character array
+		yVel += input_dir_y * 100;
 	}
 }
 
@@ -110,4 +136,8 @@ void Player::Update(int ticks) {
 //{
 //	return PLAYER;
 //}
+
+void Player::Draw(SDL_Renderer *screen) {
+
+}
 

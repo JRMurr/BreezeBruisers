@@ -374,11 +374,21 @@
 1460179635 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\utilities\timer.cpp
 	"../../include/utilities/Timer.h"
 
-1460182424 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\spritesheet.cpp
+1460183834 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\spritesheet.cpp
 	"../include/SpriteSheet.h"
 
-1460183836 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\spritesheet.h
+1460187443 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\spritesheet.h
+	<map>
 	"../include/STexture.h"
 	<SDL.h>
 	<stdio.h>
+	<string.h>
+	"../include/Animation.h"
+
+1460186927 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\animation.cpp
+	"Animation.h"
+
+1460188974 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\animation.h
+	<vector>
+	<string>
 

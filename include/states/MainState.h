@@ -16,8 +16,7 @@ class MainState : public GameState {
 		// The sprite sheet
 		SpriteSheet fieldSheet;
 		// Player
-		Player playerOne;
-		Player playerTwo;
+		Player player;
 
 		//Middle Wall
 		Wall middle_wall;

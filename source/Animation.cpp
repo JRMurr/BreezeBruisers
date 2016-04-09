@@ -18,12 +18,17 @@ void Animation::addAnim(int frame, int time){
     length+=time;
 
 }
+void Animation::addAnim(int frameStart, int frameEnd, int time){
+    for(int i = frameStart; i <= frameEnd; i++){
+        addAnim(i,time);
+    }
+}
 int Animation::getFrame(int time){
     int a = time%length;
 
 	for (int i = 0; i < data.size(); i++){
         a-=data[i].time;
-        printf("ah %d %d \n", a,i);
+        //printf("ah %d %d \n", a,i);
         if(a<=0)
         {
             return data[i].frame;

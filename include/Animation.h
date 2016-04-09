@@ -16,6 +16,7 @@ class Animation
         virtual ~Animation();
         void init(std::string n);
         void addAnim(int frame, int time);
+        void addAnim(int frameStart, int frameEnd, int time);
         int getFrame(int time);
         std::vector<animPair> data;
         std::string name;

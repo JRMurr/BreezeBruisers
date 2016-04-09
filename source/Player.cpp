@@ -10,14 +10,7 @@ Player::Player() {
 	sheet1.init("resources/Monster-squirrel.png", 256, 256, 32, 32);
 	Animation a;
 	a.init("IDLERIGHT");
-	a.addAnim(0,100);
-	a.addAnim(1,100);
-	a.addAnim(2,100);
-	a.addAnim(3,100);
-	a.addAnim(4,100);
-	a.addAnim(5,100);
-	a.addAnim(6,100);
-	a.addAnim(7,100);
+	a.addAnim(0,7,150);
 	sheet1.addAnim("IDLERIGHT",a);
 }
 

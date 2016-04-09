@@ -24,7 +24,7 @@ class Entity {
 		// Width, height
 		int width, height;
 		// Sprite sheet
-		SpriteSheet *sheet;
+		SpriteSheet sheet;
 
 		int animTime = 0;
         Animation* currentAnimation;

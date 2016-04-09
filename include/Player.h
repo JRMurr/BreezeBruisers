@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include "Entity.h"
+#include "characters/Character.h"
 
 
 enum generic_input {

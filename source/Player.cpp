@@ -22,7 +22,6 @@ void Player::Init(float x, float y, int character) {
 
 	has_disk = false;
 	time_disk_held = 0;
-	using_controller = false; //TMP!!!!! FIX !!!!!
 	dash_distance_travled = 0;
 
 	xVel = 0;
@@ -86,16 +85,10 @@ void Player::move_player(float input_dir_x, float input_dir_y) {
             currentAnimation = sheet.getAnim("RUNRIGHT");
         if(xVel == 0 && yVel == 0 && currentAnimation == sheet.getAnim("RUNRIGHT"))
             currentAnimation = sheet.getAnim("IDLERIGHT");
-        else if(xVel == 0 && yVel == 0 && currentAnimation == sheet.getAnim("RUNLEFT"))
+        if(xVel == 0 && yVel == 0 && currentAnimation == sheet.getAnim("RUNLEFT"))
             currentAnimation = sheet.getAnim("IDLELEFT");
-        else if(xVel == 0 && yVel == 0)
-        {
-            if(x <= WIDTH/2)
-                currentAnimation = sheet.getAnim("IDLERIGHT");
-            else
-                currentAnimation = sheet.getAnim("IDLELEFT");
-        }
-    }
+
+	}
 }
 
 void Player::on_collision(Entity* other_ptr, int ticks){
@@ -215,3 +208,11 @@ void Player::initAnimations(){
 	sheet.addAnim("RUNUP", RunUpAnim);
 }
 
+bool Player::using_controller() {
+	return control != NULL;
+}
+
+void Player::setInputs(SDL_Scancode *newInputs) {
+	for (int n = 0; n < SPECIAL + 1; n++)
+		inputs[n] = newInputs[n];
+}

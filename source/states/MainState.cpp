@@ -36,10 +36,19 @@ void MainState::Init(SDL_Renderer *screen) {
 	eList.push_back(&playerOne);
 	playerTwo.Init(400,0,0);
 	eList.push_back(&playerTwo);
-
 	//tmp disk stuff
 	disk.Init(5, HEIGHT / 2, 20, 100);
 	eList.push_back(&disk);
+	if (!playerTwo.using_controller()) {
+		SDL_Scancode inputs[SPECIAL + 1] = {
+			SDL_SCANCODE_UP,
+			SDL_SCANCODE_DOWN,
+			SDL_SCANCODE_LEFT,
+			SDL_SCANCODE_RIGHT
+		};
+		// TODO other keys
+		playerTwo.setInputs(inputs);
+	}
 }
 void MainState::Cleanup() {
 }

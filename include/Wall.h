@@ -10,7 +10,7 @@ class Wall : public Entity {
 		void Update(int ticks);
 		void Draw(SDL_Renderer*);
 		entity_type get_type();
-		void on_collision(Entity* other);
+		void on_collision(Entity* other, int);
 };
 
 #endif 

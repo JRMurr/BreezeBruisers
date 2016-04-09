@@ -58,8 +58,8 @@ void MainState::Update(StateManager* game, int ticks) {
 	for (int j = 0; j < eList.size(); j++) {
 		for (int k = j+1; k < eList.size(); k++) {
 			if (check_collision(eList[j], eList[k])) {
-				eList[j]->on_collision(eList[k]);
-				eList[k]->on_collision(eList[j]);
+				eList[j]->on_collision(eList[k], ticks);
+				eList[k]->on_collision(eList[j], ticks);
 				//std::cout << "dank" << "\n";
 			}
 		}

@@ -32,7 +32,7 @@ class Entity {
 		virtual void Update(int ticks) = 0;
 		virtual void Draw(SDL_Renderer*) = 0;
 		virtual entity_type get_type() = 0;
-		virtual void on_collision(Entity* other) = 0; //deals with collison of other entity
+		virtual void on_collision(Entity* other, int) = 0; //deals with collison of other entity
 		Size get_size();
 };
 

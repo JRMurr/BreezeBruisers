@@ -8,7 +8,7 @@ void Wall::Init(float x, float y, int width, int height) {
 	this->height = height;
 }
 
-void Wall::on_collision(Entity* other_ptr) {
+void Wall::on_collision(Entity* other_ptr, int ticks) {
 	//IM A MOTHA FUCKIN WALL
 	return;
 }

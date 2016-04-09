@@ -17,7 +17,7 @@ class Disk : public Entity {
 		void Init(float x, float y, float xVel, float yVel);
 		void Update(int ticks);
 		void Draw(SDL_Renderer*);
-		void on_collision(Entity* other);
+		void on_collision(Entity* other, int);
 		entity_type get_type();
 };
 

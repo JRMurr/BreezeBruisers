@@ -86,10 +86,16 @@ void Player::move_player(float input_dir_x, float input_dir_y) {
             currentAnimation = sheet.getAnim("RUNRIGHT");
         if(xVel == 0 && yVel == 0 && currentAnimation == sheet.getAnim("RUNRIGHT"))
             currentAnimation = sheet.getAnim("IDLERIGHT");
-        if(xVel == 0 && yVel == 0 && currentAnimation == sheet.getAnim("RUNLEFT"))
+        else if(xVel == 0 && yVel == 0 && currentAnimation == sheet.getAnim("RUNLEFT"))
             currentAnimation = sheet.getAnim("IDLELEFT");
-
-	}
+        else if(xVel == 0 && yVel == 0)
+        {
+            if(x <= WIDTH/2)
+                currentAnimation = sheet.getAnim("IDLERIGHT");
+            else
+                currentAnimation = sheet.getAnim("IDLELEFT");
+        }
+    }
 }
 
 void Player::on_collision(Entity* other_ptr, int ticks){

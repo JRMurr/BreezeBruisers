@@ -65,4 +65,3 @@ void Disk::Update(int ticks) {
 
 	animTime += ticks;
 }
-

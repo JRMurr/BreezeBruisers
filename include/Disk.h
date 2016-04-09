@@ -21,4 +21,4 @@ class Disk : public Entity {
 		entity_type get_type();
 };
 
-#endif
+#endif 

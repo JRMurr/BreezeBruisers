@@ -4,18 +4,11 @@
 #include "GameState.h"
 #include <stdio.h>
 #include "../STexture.h"
-#include "../Board.h"
 
 
 class MainState : public GameState {
     private:
 		int totalTicks;
-		// The board
-		Board board;
-		// The current highlighted spot
-		int row, column;
-		// True if its reds turn yellow otherwise
-		bool turn;
 		// The sprite sheet
 		STexture spriteSheet;
         //Singleton

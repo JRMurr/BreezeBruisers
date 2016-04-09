@@ -2,6 +2,8 @@
 #include <math.h>       /* sqrt  and pow*/
 
 void Player::move_player(float input_dir_x, float input_dir_y, int ticks) {
+	if (has_disk)
+		return; //dont move when has disk
 	if (is_dashing) {
 		//do dash stuff
 		if (dash_distance_travled < dash_distance) {
@@ -29,6 +31,9 @@ void Player::on_collision(Entity* other_ptr){
 	entity_type other_type = other_ptr->get_type();
 	if(other_type == DISK) {
 		//colides with disk
+
+		//destruct disk
+		has_disk = true;
 	}
 	else {
 		Size other_size = other_ptr->get_size();
@@ -69,6 +74,10 @@ void Player::on_collision(Entity* other_ptr){
 		}
 
 	}
+}
+
+void Player::handle_event(SDL_Event event){
+
 }
 
 //entity_type Player::get_type()

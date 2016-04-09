@@ -359,7 +359,7 @@
 	<SDL.h>
 	"StateManager.h"
 
-1460179635 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\states\mainstate.cpp
+1460183528 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\states\mainstate.cpp
 	"../../include/states/MainState.h"
 
 1460179635 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\states\statemanager.cpp
@@ -377,7 +377,7 @@
 1460182424 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\spritesheet.cpp
 	"../include/SpriteSheet.h"
 
-1460182463 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\spritesheet.h
+1460183836 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\spritesheet.h
 	"../include/STexture.h"
 	<SDL.h>
 	<stdio.h>

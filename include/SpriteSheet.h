@@ -9,7 +9,7 @@ class SpriteSheet
 {
     public:
         SpriteSheet();
-        init(STexture*, int tw, int th, int sw, int sh);
+        void init(STexture*, int tw, int th, int sw, int sh);
         virtual ~SpriteSheet();
 
         STexture* tex;

@@ -1,6 +1,6 @@
 #include "../include/SpriteSheet.h"
 
-SpriteSheet::init(STexture* t, int tw, int th, int sw, int sh)
+void SpriteSheet::init(STexture* t, int tw, int th, int sw, int sh)
 {
     tex = t;
     if(tex == NULL){

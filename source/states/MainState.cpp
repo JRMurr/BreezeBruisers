@@ -7,9 +7,34 @@ MainState::MainState() {
 
 void MainState::Init(SDL_Renderer *screen) {
 	totalTicks = 0;
-	player.Init(0, 0, 0);
+	bool pone = true;
+	for (int i = 0; i < SDL_NumJoysticks(); i++) {
+		if (SDL_IsGameController(i)) {
+			if (pone) {
+				playerOne.control = SDL_GameControllerOpen(i);
+				if (playerOne.control) {
+					pone = false;
+				}
+				else {
+					printf("Error with controller\n");
+				}
+			}
+			else {
+				playerTwo.control = SDL_GameControllerOpen(i);
+				if (playerTwo.control) {
+					break;
+				}
+				else {
+					printf("Error with controller\n");
+				}
+			}
+		}
+	}
+	playerOne.Init(0, 0, 0);
+	eList.push_back(&playerOne);
+	playerTwo.Init(400, 0, 0);
+	eList.push_back(&playerTwo);
 	middle_wall.Init(WIDTH / 2, 0, 20, HEIGHT);
-	eList.push_back(&player);
 	eList.push_back(&middle_wall);
 }
 void MainState::Cleanup() {
@@ -19,14 +44,15 @@ void MainState::Pause() {}
 void MainState::Resume() {}
 
 void MainState::Event(StateManager* game, SDL_Event event) {
-    switch(event.type){
-    default: player.handle_event(event);
-    }
+	switch (event.type) {
+	default: playerOne.handle_event(event); playerTwo.handle_event(event);
+	}
 }
 
 void MainState::Update(StateManager* game, int ticks) {
 	totalTicks += ticks;
-	player.Update(ticks);
+	playerOne.Update(ticks);
+	playerTwo.Update(ticks);
 
 	//check for collisions
 	for (int j = 0; j < eList.size(); j++) {
@@ -51,7 +77,8 @@ void MainState::Draw(SDL_Renderer* screen) {
 	SDL_Rect src = fieldSheet.getSprite(0);
 	SDL_RenderCopy(screen, fieldSheet.getTexture(), &src, &dst);
 
-	player.Draw(screen);
+	playerOne.Draw(screen);
+	playerTwo.Draw(screen);
 	middle_wall.Draw(screen);
 	SDL_RenderPresent(screen);
 

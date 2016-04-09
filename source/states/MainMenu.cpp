@@ -8,20 +8,20 @@ MainMenu::MainMenu() {
 	// The button offsets
 	offsets[0].x = 0;
 	offsets[0].y = 0;
-	offsets[0].w = 32;
-	offsets[0].h = 32;
+	offsets[0].w = 64*4;
+	offsets[0].h = 64;
 	offsets[1].x = 0;
-	offsets[1].y = 32;
-	offsets[1].w = 32;
-	offsets[1].h = 32;
-	Button a(offsets, MainState::Instance(), (WIDTH - 32) / 2, (HEIGHT - 64) / 2);
-	buttons.push_back(a);
-	offsets[0].x = 32;
+	offsets[1].y = 64;
+	offsets[1].w = 64*4;
+	offsets[1].h = 64;
+	Button first(offsets, MainState::Instance(), (WIDTH - offsets[0].w) / 2, (HEIGHT - offsets[0].h*BUTTON_NUMBER) / 2);
+	buttons.push_back(first);
+	offsets[0].x = 64*4;
 	offsets[0].y = 0;
-	offsets[1].x = 32;
-	offsets[1].y = 32;
-	Button b(offsets, NULL, (WIDTH - 32) / 2, (HEIGHT - 64) / 2 + 32);
-	buttons.push_back(b);
+	offsets[1].x = 64*4;
+	offsets[1].y = 64;
+	Button second(offsets, NULL, (WIDTH - offsets[1].w) / 2, (HEIGHT - offsets[1].h*BUTTON_NUMBER) / 2 + offsets[1].h);
+	buttons.push_back(second);
 	buttonIndex = 0;
 	press = false;
 }
@@ -60,6 +60,8 @@ void MainMenu::Event(StateManager *game, SDL_Event event) {
 					break;
 				}
 			break;
+		case SDL_MOUSEBUTTONDOWN:
+			press = event.button.button == SDL_BUTTON_LEFT;
 		case SDL_KEYDOWN:
 			SDL_Scancode code = event.key.keysym.scancode;
 			if (code == SDL_SCANCODE_W)
@@ -75,7 +77,7 @@ void MainMenu::Update(StateManager *game, int ticks) {
 	if (press && buttons[buttonIndex].getGameState())
 		game->PushState(buttons[buttonIndex].getGameState());
 	else if (press && !buttons[buttonIndex].getGameState())
-		press = false;
+		game->Quit();
 }
 // Draw the background and the buttons
 void MainMenu::Draw(SDL_Renderer *screen) {
@@ -87,8 +89,9 @@ void MainMenu::Draw(SDL_Renderer *screen) {
 	SDL_RenderCopy(screen, background, NULL, NULL);
 	// draw buttons
 	for (int n = 0; n < BUTTON_NUMBER; n++) {
-		SDL_Rect src{ buttons[n].getClip(0).x, buttons[n].getClip(0).y, buttons[n].getClip(0).w, buttons[n].getClip(0).h };
-		SDL_Rect dst{ buttons[n].getX(), buttons[n].getY(), buttons[n].getClip(0).w, buttons[n].getClip(0).h };
+		int selected = buttonIndex == n ? 1 : 0;
+		SDL_Rect src{ buttons[n].getClip(selected).x, buttons[n].getClip(selected).y, buttons[n].getClip(selected).w, buttons[n].getClip(selected).h };
+		SDL_Rect dst{ buttons[n].getX(), buttons[n].getY(), buttons[n].getClip(selected).w, buttons[n].getClip(selected).h };
 		SDL_RenderCopy(screen, buttonSheet, &src, &dst);
 	}
 }

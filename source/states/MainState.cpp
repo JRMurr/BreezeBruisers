@@ -1,7 +1,7 @@
 #include "../../include/states/MainState.h"
 
 MainState::MainState() {
-	spriteSheet.load("resources/sprites.png");
+	//spriteSheet.load("resources/test.png");
 }
 
 void MainState::Init(SDL_Renderer *screen) {
@@ -24,4 +24,5 @@ void MainState::Update(StateManager* game, int ticks) {
 void MainState::Draw(SDL_Renderer* screen) {
 	SDL_SetRenderDrawColor(screen, 0, 0, 0, 255);
 	SDL_RenderClear(screen);
+	//SDL_RenderCopy(screen, spriteSheet, NULL, NULL);
 }

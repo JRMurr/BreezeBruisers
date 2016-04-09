@@ -8,6 +8,8 @@ Disk::Disk() {
 void Disk::Init(float x, float y, float xVel, float yVel, bool is_player_one) {
 	this->x = x;
 	this->y = y;
+	this->width = DISK_WIDTH;
+	this->height = DISK_HEIGHT;
 	this->xVel = xVel;
 	this->yVel = yVel;
 	this->player_one_threw = is_player_one;
@@ -21,8 +23,11 @@ void Disk::on_collision(Entity* other_ptr) {
 		yVel = 0;
 	}
 	else if (other_type == WALL) {
+		//add check to allow disk through middle wall but still hit obsticales that it should hit
+
 		//should never flip x dir hopefully maybe idk i program sometimes
-		yVel *= -1;
+		//yVel *= -1;
+
 	}
 	else if (other_type == GOAL) {
 		//score stuff

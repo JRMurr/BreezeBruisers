@@ -8,7 +8,7 @@ void Player::move_player(float input_dir_x, float input_dir_y, int ticks) {
 			//only do stuff if still need to move more
 			float x_distance = (input_dir_x * dash_speed * ticks) / 1000.f;
 			float y_distance = (input_dir_y * dash_speed * ticks) / 1000.f;
-			dash_distance_travled += sqrt(pow(x_distance, 2) + pow(y_distance, 2)); //based pythag thereom, good shit right there (chorus right there)
+			dash_distance_travled += (float)sqrt(pow(x_distance, 2) + pow(y_distance, 2)); //based pythag thereom, good shit right there (chorus right there)
 			x += x_distance;
 			y += y_distance;
 		}

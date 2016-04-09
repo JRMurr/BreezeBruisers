@@ -100,7 +100,7 @@ void Player::on_collision(Entity* other_ptr, int ticks){
 	}
 	else {
 		x -= xVel*(ticks / 1000.f);
-		y -= yVel*(ticks / 1000.f);
+		//y -= yVel*(ticks / 1000.f);
 	}
 }
 

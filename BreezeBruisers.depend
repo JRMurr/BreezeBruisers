@@ -349,10 +349,11 @@
 	<SDL_image.h>
 	<stdio.h>
 
-1460179635 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\states\mainstate.h
+1460182327 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\states\mainstate.h
 	"GameState.h"
 	<stdio.h>
 	"../STexture.h"
+	"../SpriteSheet.h"
 
 1460178453 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\states\gamestate.h
 	<SDL.h>
@@ -366,10 +367,18 @@
 	"../../include/states/GameState.h"
 	"../../include/STexture.h"
 
-1460179635 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\stexture.cpp
+1460181187 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\stexture.cpp
 	"../include/STexture.h"
 	"../include/states/StateManager.h"
 
 1460179635 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\utilities\timer.cpp
 	"../../include/utilities/Timer.h"
+
+1460182424 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\spritesheet.cpp
+	"../include/SpriteSheet.h"
+
+1460182463 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\spritesheet.h
+	"../include/STexture.h"
+	<SDL.h>
+	<stdio.h>
 

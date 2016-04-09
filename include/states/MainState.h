@@ -4,16 +4,18 @@
 #include "GameState.h"
 #include <stdio.h>
 #include "../STexture.h"
+#include "../SpriteSheet.h"
 
 
 class MainState : public GameState {
     private:
 		int totalTicks;
 		// The sprite sheet
-		STexture spriteSheet;
+		STexture fieldTexture;
+		SpriteSheet fieldSheet;
         //Singleton
         MainState();
-		
+
     public:
         // Init and clean up
 		void Init(SDL_Renderer*);

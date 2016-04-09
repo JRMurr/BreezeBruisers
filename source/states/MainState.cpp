@@ -22,6 +22,6 @@ void MainState::Update(StateManager* game, int ticks) {
 }
 
 void MainState::Draw(SDL_Renderer* screen) {
-	SDL_SetRenderDrawColor(screen, 255, 255, 255, 255);
+	SDL_SetRenderDrawColor(screen, 0, 0, 0, 255);
 	SDL_RenderClear(screen);
 }

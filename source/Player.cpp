@@ -3,6 +3,8 @@
 
 static SpriteSheet sheet1;
 
+#define SPEED 300
+
 Player::Player() {
 	// TODO char array
 	sheet1.init("resources/playa.png", 32, 32, 32, 32);
@@ -28,13 +30,13 @@ void Player::Init(float x, float y, int character) {
 	yVel = 0;
 
 	//controls wasd + space for throw, e for lob and Lshift for special
-	inputs[UP] = SDLK_w;
-	inputs[DOWN] = SDLK_s;
-	inputs[LEFT] = SDLK_a;
-	inputs[RIGHT] = SDLK_d;
-	inputs[THROW] = SDLK_SPACE;
-	inputs[LOB] = SDLK_e;
-	inputs[SPECIAL] = SDLK_LSHIFT;
+	inputs[UP] = SDL_SCANCODE_W;
+	inputs[DOWN] = SDL_SCANCODE_S;
+	inputs[LEFT] = SDL_SCANCODE_A;
+	inputs[RIGHT] = SDL_SCANCODE_D;
+	inputs[THROW] = SDL_SCANCODE_SPACE;
+	inputs[LOB] = SDL_SCANCODE_E;
+	inputs[SPECIAL] = SDL_SCANCODE_LSHIFT;
 }
 
 void Player::move_player(float input_dir_x, float input_dir_y) {
@@ -61,8 +63,8 @@ void Player::move_player(float input_dir_x, float input_dir_y) {
 	}
 	else*/ {
 		//regular movement
-		xVel += input_dir_x * 100;	// TODO get walk speed from character array
-		yVel += input_dir_y * 100;
+		xVel = input_dir_x * SPEED;	// TODO get walk speed from character array
+		yVel = input_dir_y * SPEED;
 	}
 }
 
@@ -116,24 +118,36 @@ void Player::on_collision(Entity* other_ptr){
 }
 
 void Player::handle_event(SDL_Event e){
-	if (e.type == SDL_KEYDOWN) {
-		SDL_Keycode eKey = e.key.keysym.sym;
-		if (eKey == inputs[UP]) {
-			move_player(0, 1);
-		}else if (eKey == inputs[RIGHT]) {
-			move_player(1, 0);
-		}else if (eKey == inputs[LEFT]) {
-			move_player(-1, 0);
-		}else if (eKey == inputs[DOWN]) {
+
+	const Uint8 *keystates = SDL_GetKeyboardState(NULL);
+
+	if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
+		SDL_Scancode eKey = e.key.keysym.scancode;
+		if (keystates[inputs[UP]]) {
 			move_player(0, -1);
-		}else if (eKey == inputs[THROW]) {
-
-		}else if (eKey == inputs[LOB]) {
+		}
+		if (keystates[inputs[RIGHT]]) {
+			move_player(1, 0);
+		}
+		if (keystates[inputs[LEFT]]) {
+			move_player(-1, 0);
+		}
+		if (keystates[inputs[DOWN]]) {
+			move_player(0, 1);
+		}
+		if (keystates[inputs[THROW]]) {
 
 		}
-		else if (eKey == inputs[SPECIAL]) {
+		if (keystates[inputs[LOB]]) {
 
 		}
+		if (keystates[inputs[SPECIAL]]) {
+
+		}
+	} else if (e.type == SDL_KEYUP && e.key.repeat == 0) {
+		//maybe make func so dashing is fucked when this happens
+		xVel = 0;
+		yVel = 0;
 	}
 }
 

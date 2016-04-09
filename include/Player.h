@@ -18,7 +18,7 @@ enum generic_input {
 class Player : public Entity {
 	protected:
 		//SDL_Event event; //for input from state manager
-		SDL_Keycode inputs[7]; //7 since thats how many inputs there are
+		SDL_Scancode inputs[7]; //7 since thats how many inputs there are
 		// Which character they are
 		int character;
 		bool using_controller; 

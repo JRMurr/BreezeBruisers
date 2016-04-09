@@ -75,6 +75,12 @@ void Player::move_player(float input_dir_x, float input_dir_y) {
 
 		//currentAnimation = sheet.getAnim("RUNUP");
 
+		if(xVel == 0 && yVel == 0){
+            if(x >= WIDTH/2)
+                currentAnimation = sheet.getAnim("IDLELEFT");
+            if(x< WIDTH/2)
+                currentAnimation = sheet.getAnim("IDLERIGHT");
+		}
 		if(yVel < 0)
             currentAnimation = sheet.getAnim("RUNUP");
         if(yVel > 0)
@@ -88,6 +94,7 @@ void Player::move_player(float input_dir_x, float input_dir_y) {
         if(xVel == 0 && yVel == 0 && currentAnimation == sheet.getAnim("RUNLEFT"))
             currentAnimation = sheet.getAnim("IDLELEFT");
 
+
 	}
 }
 
@@ -96,6 +103,10 @@ void Player::on_collision(Entity* other_ptr, int ticks){
 	if(other_type == DISK) {
 		//colides with disk
 
+		if(x >= WIDTH/2)
+                currentAnimation = sheet.getAnim("IDLELEFT");
+        if(x< WIDTH/2)
+            currentAnimation = sheet.getAnim("IDLERIGHT");
 		//hide disk
 		has_disk = true;
 		xVel = 0;
@@ -172,6 +183,7 @@ void Player::Draw(SDL_Renderer *screen) {
 	dst.w = width;
 	dst.h = height;
 	SDL_Rect src = sheet.getSprite(currentAnimation->getFrame(animTime));
+	SDL_SetTextureColorMod(sheet.getTexture(),255,255,255);
 	SDL_RenderCopy(screen, sheet.getTexture(), &src, &dst);
 }
 

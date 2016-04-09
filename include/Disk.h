@@ -4,8 +4,8 @@
 #include <SDL.h>
 #include "Entity.h"
 
-#define DISK_WIDTH 8
-#define DISK_HEIGHT 8
+#define DISK_WIDTH 16
+#define DISK_HEIGHT 16
 
 class Disk : public Entity {
 	protected:
@@ -21,4 +21,4 @@ class Disk : public Entity {
 		entity_type get_type();
 };
 
-#endif 
+#endif

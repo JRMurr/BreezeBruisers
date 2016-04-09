@@ -34,10 +34,10 @@ void MainState::Init(SDL_Renderer *screen) {
 	}
 	playerOne.Init(0, 0, 0);
 	eList.push_back(&playerOne);
-	playerTwo.Init(400,0,1);
+	playerTwo.Init(400,136,0);
 	eList.push_back(&playerTwo);
 	//tmp disk stuff
-	disk.Init(5, HEIGHT / 2, 20, 100);
+	disk.Init(WIDTH/2 - 8, HEIGHT / 2, 100, 0);
 	eList.push_back(&disk);
 	if (!playerTwo.using_controller()) {
 		SDL_Scancode inputs[SPECIAL + 1] = {
@@ -95,6 +95,9 @@ void MainState::Draw(SDL_Renderer* screen) {
 	playerOne.Draw(screen);
     playerTwo.Draw(screen);
 	disk.Draw(screen);
+
+
+
 	SDL_RenderPresent(screen);
 
 }

@@ -3,7 +3,7 @@
 
 #define SCALE 1
 
-#define WIDTH 640
-#define HEIGHT 320
+#define WIDTH 450
+#define HEIGHT 300
 
 #endif

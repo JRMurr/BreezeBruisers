@@ -6,8 +6,33 @@ MainState::MainState() {
 
 void MainState::Init(SDL_Renderer *screen) {
 	totalTicks = 0;
-	player.Init(0, 0, 0);
-	eList.push_back(&player);
+	bool pone = true;
+	for(int i = 0; i < SDL_NumJoysticks(); i++){
+        if(SDL_IsGameController(i)){
+            if(pone){
+                playerOne.control = SDL_GameControllerOpen(i);
+                if(playerOne.control){
+                    pone = false;
+                }
+                else{
+                    printf("Error with controller\n");
+                }
+            }
+            else{
+                playerTwo.control = SDL_GameControllerOpen(i);
+                if(playerTwo.control){
+                    break;
+                }
+                else{
+                    printf("Error with controller\n");
+                }
+            }
+        }
+	}
+	playerOne.Init(0, 0, 0);
+	eList.push_back(&playerOne);
+	playerTwo.Init(400,0,0);
+	eList.push_back(&playerTwo);
 }
 void MainState::Cleanup() {
 }
@@ -17,13 +42,14 @@ void MainState::Resume() {}
 
 void MainState::Event(StateManager* game, SDL_Event event) {
     switch(event.type){
-    default: player.handle_event(event);
+    default: playerOne.handle_event(event); playerTwo.handle_event(event);
     }
 }
 
 void MainState::Update(StateManager* game, int ticks) {
 	totalTicks += ticks;
-	player.Update(ticks);
+	playerOne.Update(ticks);
+	playerTwo.Update(ticks);
 }
 
 void MainState::Draw(SDL_Renderer* screen) {
@@ -37,8 +63,8 @@ void MainState::Draw(SDL_Renderer* screen) {
 	SDL_Rect src = fieldSheet.getSprite(0);
 	SDL_RenderCopy(screen, fieldSheet.getTexture(), &src, &dst);
 
-	player.Draw(screen);
-
+	playerOne.Draw(screen);
+    playerTwo.Draw(screen);
 	SDL_RenderPresent(screen);
 
 }

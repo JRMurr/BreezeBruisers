@@ -3,7 +3,7 @@
 #include "../include/Define.h"
 
 Player::Player() {
-	
+
 }
 
 void Player::Init(float x, float y, int character) {
@@ -14,10 +14,8 @@ void Player::Init(float x, float y, int character) {
 	// TODO actual character sprite sheet
 	Character c = Character::CharArray[this->character];
 	sheet.init(c.sheetPath, c.width*8, c.height*8, c.width, c.height);
-	static Animation IdleAnim;
-	IdleAnim.init("IDLERIGHT");
-	IdleAnim.addAnim(0, 7, 150);
-	sheet.addAnim("IDLERIGHT", IdleAnim);
+
+	initAnimations();
 
 	width = c.width;	// TODO get width from character array
 	height = c.height;
@@ -75,6 +73,22 @@ void Player::move_player(float input_dir_x, float input_dir_y) {
 		Character c = Character::CharArray[character];
 		xVel = input_dir_x * c.walkSpeed;	// TODO get walk speed from character array
 		yVel = input_dir_y * c.walkSpeed;
+
+		//currentAnimation = sheet.getAnim("RUNUP");
+
+		if(yVel < 0)
+            currentAnimation = sheet.getAnim("RUNUP");
+        if(yVel > 0)
+            currentAnimation = sheet.getAnim("RUNDOWN");
+		if(xVel < 0)
+            currentAnimation = sheet.getAnim("RUNLEFT");
+        if(xVel > 0)
+            currentAnimation = sheet.getAnim("RUNRIGHT");
+        if(xVel == 0 && yVel == 0 && currentAnimation == sheet.getAnim("RUNRIGHT"))
+            currentAnimation = sheet.getAnim("IDLERIGHT");
+        if(xVel == 0 && yVel == 0 && currentAnimation == sheet.getAnim("RUNLEFT"))
+            currentAnimation = sheet.getAnim("IDLELEFT");
+
 	}
 }
 
@@ -130,19 +144,36 @@ void Player::on_collision(Entity* other_ptr){
 void Player::handle_event(SDL_Event e){
 
 	const Uint8 *keystates = SDL_GetKeyboardState(NULL);
+
     float tx=0, ty=0;
-    if (keystates[inputs[UP]]) {
-        ty-=1;
+    if(control){
+        int xAxis = SDL_GameControllerGetAxis(control, SDL_CONTROLLER_AXIS_LEFTX);
+        int yAxis = SDL_GameControllerGetAxis(control, SDL_CONTROLLER_AXIS_LEFTY);
+        if(yAxis >= 10000)
+            ty = 1;
+        if(yAxis <= -10000)
+            ty = -1;
+        if(xAxis >= 10000)
+            tx = 1;
+        if(xAxis <= -10000)
+            tx = -1;
     }
-    if (keystates[inputs[RIGHT]]) {
-        tx+=1;
+    else{
+        if (keystates[inputs[UP]]) {
+            ty-=1;
+        }
+        if (keystates[inputs[RIGHT]]) {
+            tx+=1;
+        }
+        if (keystates[inputs[LEFT]]) {
+            tx-=1;
+        }
+        if (keystates[inputs[DOWN]]) {
+            ty+=1;
+        }
     }
-    if (keystates[inputs[LEFT]]) {
-        tx-=1;
-    }
-    if (keystates[inputs[DOWN]]) {
-        ty+=1;
-    }
+
+
     move_player(tx,ty);
 }
 
@@ -176,5 +207,38 @@ void Player::Draw(SDL_Renderer *screen) {
 	dst.h = height;
 	SDL_Rect src = sheet.getSprite(currentAnimation->getFrame(animTime));
 	SDL_RenderCopy(screen, sheet.getTexture(), &src, &dst);
+}
+
+void Player::initAnimations(){
+
+    Animation IdleRightAnim;
+	IdleRightAnim.init("IDLERIGHT");
+	IdleRightAnim.addAnim(0, 7, 150);
+	sheet.addAnim("IDLERIGHT", IdleRightAnim);
+
+	Animation IdleLeftAnim;
+	IdleLeftAnim.init("IDLELEFT");
+	IdleLeftAnim.addAnim(8, 15, 150);
+	sheet.addAnim("IDLELEFT", IdleLeftAnim);
+
+	Animation RunLeftAnim;
+	RunLeftAnim.init("RUNLEFT");
+	RunLeftAnim.addAnim(40, 42, 200);
+	sheet.addAnim("RUNLEFT", RunLeftAnim);
+
+	Animation RunRightAnim;
+	RunRightAnim.init("RUNRIGHT");
+	RunRightAnim.addAnim(32, 34, 200);
+	sheet.addAnim("RUNRIGHT", RunRightAnim);
+
+	Animation RunDownAnim;
+	RunDownAnim.init("RUNDOWN");
+	RunDownAnim.addAnim(48, 50, 200);
+	sheet.addAnim("RUNDOWN", RunDownAnim);
+
+    Animation RunUpAnim;
+	RunUpAnim.init("RUNUP");
+	RunUpAnim.addAnim(56, 58, 200);
+	sheet.addAnim("RUNUP", RunUpAnim);
 }
 

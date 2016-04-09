@@ -23,7 +23,8 @@ enum Char_enum{
 	BREEZER1,
 	NUM_CHARACTERS
 };
+static Character Breezer1{ "B1", "resources/Monster-squirrel.png", 32, 32, 300, 600, 0 };
 // Array of characters used to look up character data
-//const Character CharArray[];
+const Character CharArray[NUM_CHARACTERS] = { Breezer1 };
 
 #endif

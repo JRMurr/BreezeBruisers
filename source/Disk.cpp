@@ -14,7 +14,7 @@ void Disk::Init(float x, float y, float xVel, float yVel) {
 	this->yVel = yVel;
 }
 
-void Disk::on_collision(Entity* other_ptr) {
+void Disk::on_collision(Entity* other_ptr, int) {
 	entity_type other_type = other_ptr->get_type();
 	if (other_type == PLAYER) {
 		//set velocity to 0 and wait for player to do stuff

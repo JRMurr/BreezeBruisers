@@ -41,7 +41,7 @@ class Player : public Entity {
 		void Update(int ticks);
 		void Draw(SDL_Renderer*);
 		void move_player(float input_dir_x, float input_dir_y);
-		void on_collision(Entity* other); //player deals with collison of other entity
+		void on_collision(Entity* other, int); //player deals with collison of other entity
 		void handle_event(SDL_Event event);
 		void initAnimations();
 		entity_type get_type();

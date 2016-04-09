@@ -45,8 +45,8 @@ void Disk::Draw(SDL_Renderer *screen) {
 	dst.y = y;
 	dst.w = width;
 	dst.h = height;
-	SDL_Rect src = sheet->getSprite(currentAnimation->getFrame(animTime));
-	SDL_RenderCopy(screen, sheet->getTexture(), &src, &dst);
+	SDL_Rect src = sheet.getSprite(currentAnimation->getFrame(animTime));
+	SDL_RenderCopy(screen, sheet.getTexture(), &src, &dst);
 }
 
 entity_type Disk::get_type(){

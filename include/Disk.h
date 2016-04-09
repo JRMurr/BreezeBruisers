@@ -4,8 +4,8 @@
 #include <SDL.h>
 #include "Entity.h"
 
-#define DISK_WIDTH
-#define DISK_HEIGHT
+#define DISK_WIDTH 32
+#define DISK_HEIGHT 32
 
 class Disk : public Entity {
 	protected:

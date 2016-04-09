@@ -20,6 +20,8 @@ class Player : public Entity {
 		virtual void Update() = 0;
 		virtual void Draw(SDL_Renderer*) = 0;
 		void move_player(float input_dir_x, float input_dir_y, int ticks);
+		void on_collision(Entity* other); //player deals with collison of other entity
+		//entity_type get_type();
 		//void player_dash(float input_dir_x, float input_dir_y, int ticks);
 };
 

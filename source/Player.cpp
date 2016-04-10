@@ -8,6 +8,8 @@
 
 #define DASH_DURATION 125	//.125 secs
 
+
+#define WAIT_TIME 150
 Player::Player() {
 
 }
@@ -144,7 +146,8 @@ void Player::on_collision(Entity* other_ptr, int ticks) {
 }
 
 void Player::handle_event(SDL_Event e) {
-
+	if (time_to_wait > 0)
+		return; //if waiting do nothing
 	const Uint8 *keystates = SDL_GetKeyboardState(NULL);
 
 	float tx = 0, ty = 0;
@@ -226,6 +229,11 @@ void Player::throw_disk(float tx, float ty) {
 }
 
 void Player::Update(int ticks) {
+	if (time_to_wait > 0) {
+		time_to_wait -= ticks;
+		return;
+	}
+		
 	if (!disk) {//does not have disk
 		time_disk_held = 0;
 		x += (xVel * ticks) / 1000.f; //ticks in ms so dived by 1000 for pixels per second
@@ -258,6 +266,7 @@ void Player::Update(int ticks) {
 			time_dashing = 0;
 			xVel = 0;
 			yVel = 0;
+			wait(50);
 		}
 			
 	}
@@ -326,4 +335,8 @@ bool Player::using_controller() {
 void Player::setInputs(SDL_Scancode *newInputs) {
 	for (int n = 0; n < SPECIAL + 1; n++)
 		inputs[n] = newInputs[n];
+}
+
+void Player::wait(int num_ticks) {
+	time_to_wait = num_ticks;
 }

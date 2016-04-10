@@ -32,6 +32,8 @@ class MainState : public GameState {
 		bool serve;
         //Singleton
         MainState();
+        // Destructor
+        ~MainState();
 		//list of entites
 		std::vector<Entity*> eList;
     public:

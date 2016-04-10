@@ -55,6 +55,11 @@ MainState::MainState() {
 
 }
 
+MainState::~MainState() {
+    Mix_FreeMusic(bgmusic);
+    Mix_FreeChunk(scoreMusic);
+}
+
 void MainState::Init(SDL_Renderer *screen) {
 	totalTicks = 0;
 
@@ -104,8 +109,6 @@ void MainState::reset() {
 }
 
 void MainState::Cleanup() {
-    Mix_FreeMusic(bgmusic);
-    Mix_FreeChunk(scoreMusic);
 }
 
 void MainState::Pause() {}

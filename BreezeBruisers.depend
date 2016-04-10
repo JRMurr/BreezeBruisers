@@ -355,7 +355,7 @@
 	"../include/states/MainState.h"
 	"../include/states/MainMenu.h"
 
-1460306283 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\states\statemanager.h
+1460308247 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\states\statemanager.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_mixer.h>
@@ -371,7 +371,7 @@
 
 1460276524 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\define.h
 
-1460306386 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\states\mainstate.h
+1460310312 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\states\mainstate.h
 	"GameState.h"
 	<stdio.h>
 	"../STexture.h"
@@ -387,7 +387,7 @@
 	<SDL.h>
 	"StateManager.h"
 
-1460308010 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\player.h
+1460308247 c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\include\player.h
 	<SDL.h>
 	<SDL_mixer.h>
 	"Entity.h"
@@ -443,7 +443,7 @@
 1460295163 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\states\mainmenu.cpp
 	"../../include/states/MainMenu.h"
 
-1460306826 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\states\statemanager.cpp
+1460308247 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\states\statemanager.cpp
 	"../../include/states/StateManager.h"
 	"../../include/states/GameState.h"
 	"../../include/STexture.h"
@@ -474,7 +474,7 @@
 1460233149 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\goal.cpp
 	"../include/Goal.h"
 
-1460307867 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\player.cpp
+1460308247 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\player.cpp
 	"../include/Player.h"
 	<math.h>
 	"../include/Define.h"
@@ -486,7 +486,7 @@
 	<iostream>
 	<cstdlib>
 
-1460307629 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\states\mainstate.cpp
+1460310329 source:c:\users\kevin_000\desktop\coding\c++\sdl\breezebruisers\source\states\mainstate.cpp
 	"../../include/states/MainState.h"
 	"../../include/Define.h"
 	<iostream>

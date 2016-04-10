@@ -24,12 +24,9 @@ void HiddenState::Init(SDL_Renderer *screen) {
         }
 	}
 	playerOne.Init(0, 136, 0);
-	eList.push_back(&playerOne);
 
 	goals[0].Init(-1, 0, 1, HEIGHT);
 	goals[1].Init(WIDTH, 0, 1, HEIGHT);
-	eList.push_back(&goals[0]);
-	eList.push_back(&goals[1]);
 
 
 	//tmp disk stuff
@@ -40,10 +37,15 @@ void HiddenState::Init(SDL_Renderer *screen) {
 
 	disk.Init(220, 150, cos(angle)*250, sin(angle)*250);
 	disk.setScore(&score, &score);
-	eList.push_back(&disk);
 	discCounter = 1;
+
+	eList.push_back(&playerOne);
+	eList.push_back(&disk);
+	eList.push_back(&goals[0]);
+	eList.push_back(&goals[1]);
 }
 void HiddenState::Cleanup() {
+	eList.empty();
 }
 
 void HiddenState::Pause() {}
@@ -78,6 +80,8 @@ void HiddenState::Update(StateManager* game, int ticks) {
 			if (check_collision(eList[j], eList[k])) {
 				eList[j]->on_collision(eList[k], ticks);
 				eList[k]->on_collision(eList[j], ticks);
+				if (eList[j]->get_type() == PLAYER || eList[k]->get_type() == PLAYER)
+					game->PopState(1);
 				//std::cout << "dank" << "\n";
 			}
 		}

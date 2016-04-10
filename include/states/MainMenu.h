@@ -25,6 +25,8 @@ class MainMenu : public GameState {
 		STexture background;
 		// Singleton
 		MainMenu();
+		// Axis sleep time
+		int axisSleep;
 	public:
 		// Init and clean up
         void Init(SDL_Renderer*);

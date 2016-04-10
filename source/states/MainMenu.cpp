@@ -30,6 +30,7 @@ MainMenu::MainMenu() {
 void MainMenu::Init(SDL_Renderer *screen) {
 	buttonIndex = 0;
 	press = false;
+	axisSleep = 0;
 }
 
 // Cleans up aka nothing for now
@@ -50,6 +51,7 @@ void MainMenu::Resume() {
 // event handling
 void MainMenu::Event(StateManager *game, SDL_Event event) {
 	int x, y;
+	SDL_Scancode code = event.key.keysym.scancode;
 	switch (event.type) {
 		case SDL_MOUSEMOTION:
 			SDL_GetMouseState(&x, &y);
@@ -62,20 +64,38 @@ void MainMenu::Event(StateManager *game, SDL_Event event) {
 			break;
 		case SDL_MOUSEBUTTONDOWN:
 			press = event.button.button == SDL_BUTTON_LEFT;
+			break;
 		case SDL_KEYDOWN:
-			SDL_Scancode code = event.key.keysym.scancode;
-			if (code == SDL_SCANCODE_W)
+			if (code == SDL_SCANCODE_A)
 				buttonIndex = buttonIndex > 0 ? buttonIndex - 1 : BUTTON_NUMBER - 1;
-			else if (code == SDL_SCANCODE_S)
+			else if (code == SDL_SCANCODE_D)
 				buttonIndex = (buttonIndex + 1) % BUTTON_NUMBER;
 			else if (code == SDL_SCANCODE_RETURN)
 				press = true;
             else if(code == SDL_SCANCODE_H)
                 game->PushState(HiddenState::Instance());
+			break;
+		case SDL_CONTROLLERBUTTONDOWN:
+			press = event.cbutton.button == SDL_CONTROLLER_BUTTON_A;
+			break;
+		case SDL_CONTROLLERAXISMOTION:
+			if (axisSleep > 0)
+				break;
+			Uint8 axis = event.caxis.axis;
+			if (axis == SDL_CONTROLLER_AXIS_LEFTX && event.caxis.value < -32700) {
+				buttonIndex = buttonIndex > 0 ? buttonIndex - 1 : BUTTON_NUMBER - 1;
+				axisSleep = 200;
+			}
+			else if (axis == SDL_CONTROLLER_AXIS_LEFTX && event.caxis.value > 32700) {
+				buttonIndex = (buttonIndex + 1) % BUTTON_NUMBER;
+				axisSleep = 200;
+			}
+			break;
 	}
 }
 // update TODO idk yet
 void MainMenu::Update(StateManager *game, int ticks) {
+	axisSleep -= ticks;
 	if (press && buttons[buttonIndex].getGameState())
 		game->PushState(buttons[buttonIndex].getGameState());
 	else if (press && !buttons[buttonIndex].getGameState())

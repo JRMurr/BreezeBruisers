@@ -45,7 +45,8 @@ void HiddenState::Init(SDL_Renderer *screen) {
 	eList.push_back(&goals[1]);
 }
 void HiddenState::Cleanup() {
-	eList.empty();
+	while (!eList.empty())
+		eList.pop_back();
 }
 
 void HiddenState::Pause() {}

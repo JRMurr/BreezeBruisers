@@ -29,7 +29,7 @@ void Player::Init(float x, float y, int character) {
 	height = c.height;
 
 	//has_disk = false;
-	Disk* disk = NULL;
+	disk = NULL;
 	time_disk_held = 0;
 	time_dashing = 0;
 

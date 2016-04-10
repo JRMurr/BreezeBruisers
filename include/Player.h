@@ -4,7 +4,7 @@
 #include <SDL.h>
 #include "Entity.h"
 #include "characters/Character.h"
-
+#include "Disk.h"
 
 enum generic_input {
 	UP,
@@ -22,7 +22,8 @@ class Player : public Entity {
 		SDL_Scancode inputs[7]; //7 since thats how many inputs there are
 		// Which character they are
 		int character;
-		bool has_disk; //player will act differntly when holding disk
+		//bool has_disk; //player will act differntly when holding disk
+		Disk* disk;
 		bool is_dashing; //check to make sure player doesnt break out of dash animation
 		float dash_distance_travled; //used to keep track of how long the dash has been going
 

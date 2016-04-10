@@ -2,6 +2,10 @@
 #include <math.h>       /* sqrt  and pow*/
 #include "../include/Define.h"
 
+#define MAX_TIME_HOLD_DISK 1500 //1.5 secs
+
+#define TMP_THROW_SPEED 400
+
 Player::Player() {
 
 }
@@ -20,7 +24,8 @@ void Player::Init(float x, float y, int character) {
 	width = c.width;	// TODO get width from character array
 	height = c.height;
 
-	has_disk = false;
+	//has_disk = false;
+	Disk* disk = NULL;
 	time_disk_held = 0;
 	dash_distance_travled = 0;
 
@@ -40,7 +45,7 @@ void Player::Init(float x, float y, int character) {
 }
 
 void Player::move_player(float input_dir_x, float input_dir_y) {
-	if (has_disk)
+	if (disk)
 		return; //dont move when has disk
 	//if (is_dashing) {
 
@@ -62,38 +67,37 @@ void Player::move_player(float input_dir_x, float input_dir_y) {
 		}
 	}
 	else*/ {
-		//regular movement
-        //Normalize input
-        float l = sqrt(input_dir_x*input_dir_x + input_dir_y*input_dir_y);
-        if(l!=0){
-            input_dir_x/=l;
-            input_dir_y/=l;
-        }
+	//regular movement
+	//Normalize input
+		float l = sqrt(input_dir_x*input_dir_x + input_dir_y*input_dir_y);
+		if (l != 0) {
+			input_dir_x /= l;
+			input_dir_y /= l;
+		}
 		Character c = Character::CharArray[character];
 		xVel = input_dir_x * c.walkSpeed;	// TODO get walk speed from character array
 		yVel = input_dir_y * c.walkSpeed;
 
 		//currentAnimation = sheet.getAnim("RUNUP");
 
-		if(xVel == 0 && yVel == 0){
-            if(x >= WIDTH/2)
-                currentAnimation = sheet.getAnim("IDLELEFT");
-            if(x< WIDTH/2)
-                currentAnimation = sheet.getAnim("IDLERIGHT");
+		if (xVel == 0 && yVel == 0) {
+			if (x >= WIDTH / 2)
+				currentAnimation = sheet.getAnim("IDLELEFT");
+			if (x< WIDTH / 2)
+				currentAnimation = sheet.getAnim("IDLERIGHT");
 		}
-		if(yVel < 0)
-            currentAnimation = sheet.getAnim("RUNUP");
-        if(yVel > 0)
-            currentAnimation = sheet.getAnim("RUNDOWN");
-		if(xVel < 0)
-            currentAnimation = sheet.getAnim("RUNLEFT");
-        if(xVel > 0)
-            currentAnimation = sheet.getAnim("RUNRIGHT");
-        if(xVel == 0 && yVel == 0 && currentAnimation == sheet.getAnim("RUNRIGHT"))
-            currentAnimation = sheet.getAnim("IDLERIGHT");
-        if(xVel == 0 && yVel == 0 && currentAnimation == sheet.getAnim("RUNLEFT"))
-            currentAnimation = sheet.getAnim("IDLELEFT");
-
+		if (yVel < 0)
+			currentAnimation = sheet.getAnim("RUNUP");
+		if (yVel > 0)
+			currentAnimation = sheet.getAnim("RUNDOWN");
+		if (xVel < 0)
+			currentAnimation = sheet.getAnim("RUNLEFT");
+		if (xVel > 0)
+			currentAnimation = sheet.getAnim("RUNRIGHT");
+		if (xVel == 0 && yVel == 0 && currentAnimation == sheet.getAnim("RUNRIGHT"))
+			currentAnimation = sheet.getAnim("IDLERIGHT");
+		if (xVel == 0 && yVel == 0 && currentAnimation == sheet.getAnim("RUNLEFT"))
+			currentAnimation = sheet.getAnim("IDLELEFT");
 
 	}
 }
@@ -103,12 +107,13 @@ void Player::on_collision(Entity* other_ptr, int ticks){
 	if(other_type == DISK) {
 		//colides with disk
 
-		if(x >= WIDTH/2)
-                currentAnimation = sheet.getAnim("IDLELEFT");
-        if(x< WIDTH/2)
-            currentAnimation = sheet.getAnim("IDLERIGHT");
+		if (x >= WIDTH / 2)
+			currentAnimation = sheet.getAnim("IDLELEFT");
+		if (x< WIDTH / 2)
+			currentAnimation = sheet.getAnim("IDLERIGHT");
+
 		//hide disk
-		has_disk = true;
+		disk = dynamic_cast<Disk*>(other_ptr);
 		xVel = 0;
 		yVel = 0;
 	}
@@ -150,24 +155,70 @@ void Player::handle_event(SDL_Event e){
         }
     }
 
+	if(!disk)//does not have disk
+		move_player(tx,ty);
+	else {
+		//has disk so check for throw button
+		if (keystates[inputs[THROW]]) {
+			if (x < WIDTH / 2 && tx < 0)
+				tx = 0; //dont throw behine on left
+			if (x > WIDTH / 2 && tx >0)
+				tx = 0; //dont throw behind on right
 
-    move_player(tx,ty);
+			float x_throw_speed = 0;
+			float y_throw_speed = 0;
+			if (tx != 0) {
+				x_throw_speed = (tx * TMP_THROW_SPEED) * ((float)(MAX_TIME_HOLD_DISK - time_disk_held) / MAX_TIME_HOLD_DISK);
+			}
+				
+			if (ty != 0) {
+				y_throw_speed = (ty * TMP_THROW_SPEED) * ((float)(MAX_TIME_HOLD_DISK - time_disk_held) / MAX_TIME_HOLD_DISK);
+			}
+				
+
+			if (y_throw_speed != 0 && x_throw_speed == 0)
+				x_throw_speed = 100; //add some x dir so it doesnt go perfectly vertical
+
+			if (y_throw_speed == 0 && x_throw_speed == 0)
+				x_throw_speed = TMP_THROW_SPEED/2; //if not holding throw horizontal
+			if (x > WIDTH / 2 && x_throw_speed > 0)
+				x_throw_speed *= -1;
+
+			float x_spawn = x + width + disk->get_size().width + 15;
+			if (x > WIDTH / 2)
+				x_spawn = x - disk->get_size().width - 15;
+			disk->Init(x_spawn, y, x_throw_speed, y_throw_speed);
+			disk = NULL;
+		}
+	}
 }
 
 void Player::Update(int ticks) {
-	x += (xVel * ticks) / 1000.f; //ticks in ms so dived by 1000 for pixels per second
-	y += (yVel * ticks) / 1000.f;
+	if (!disk) {//does not have disk
+		time_disk_held = 0;
+		x += (xVel * ticks) / 1000.f; //ticks in ms so dived by 1000 for pixels per second
+		y += (yVel * ticks) / 1000.f;
 
-	animTime+=ticks;
-    //printf("anim- %d \n",animTime);
-	if(x<=0)
-        x = 0;
-    if(x>WIDTH-width)
-        x = WIDTH-width;
-    if(y<=0)
-        y =0;
-    if(y>HEIGHT-height)
-        y = HEIGHT-height;
+
+		//printf("anim- %d \n",animTime);
+		if (x <= 0)
+			x = 0;
+		if (x>WIDTH - width)
+			x = WIDTH - width;
+		if (y <= 0)
+			y = 0;
+		if (y>HEIGHT - height)
+			y = HEIGHT - height;
+	}
+	else {
+		//has disk
+		time_disk_held += ticks;
+		if (time_disk_held > MAX_TIME_HOLD_DISK) {
+
+		}
+	}
+
+	animTime += ticks;
 
 }
 
@@ -183,7 +234,7 @@ void Player::Draw(SDL_Renderer *screen) {
 	dst.w = width;
 	dst.h = height;
 	SDL_Rect src = sheet.getSprite(currentAnimation->getFrame(animTime));
-	SDL_SetTextureColorMod(sheet.getTexture(),255,255,255);
+	SDL_SetTextureColorMod(sheet.getTexture(), 255, 255, 255);
 	SDL_RenderCopy(screen, sheet.getTexture(), &src, &dst);
 }
 

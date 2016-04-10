@@ -31,16 +31,24 @@ SpriteSheet::~SpriteSheet()
 {
     //
 }
-
+int SpriteSheet::getSWidth(){return spriteWidth;}
+int SpriteSheet::getSHeight(){return spriteHeight;}
 SDL_Rect SpriteSheet::getSprite(int num){
     SDL_Rect r;
-    r.x = (num%cols)*spriteWidth;
-    r.y = (num/rows)*spriteHeight;
+    if(rows == 1){
+        r.x = (num/rows)*spriteWidth;
+        r.y = (num%rows)*spriteHeight;
+    }
+    else{
+        r.x = (num%rows)*spriteWidth;
+        r.y = (num/rows)*spriteHeight;
+    }
     r.w = spriteWidth;
     r.h = spriteHeight;
 
     return r;
 }
+
 
 SDL_Texture *SpriteSheet::getTexture() { return tex; }
 

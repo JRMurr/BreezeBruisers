@@ -41,11 +41,12 @@ MainState::MainState() {
 	disk.setScore(&leftScore, &rightScore);
 
 	fieldSheet.init("resources/field.png", 960, 540, 960, 540);
+	numberSheet.init("resources/numbers.png",320,64,32,64);
 }
 
 void MainState::Init(SDL_Renderer *screen) {
 	totalTicks = 0;
-	
+
 	playerOne.Init(0, (HEIGHT - playerOne.get_size().height)/2, 0);
 	playerTwo.Init(400, (HEIGHT - playerTwo.get_size().height) / 2, 0);
 	if (!playerTwo.using_controller()) {
@@ -131,6 +132,8 @@ void MainState::Draw(SDL_Renderer* screen) {
 	SDL_Rect src = fieldSheet.getSprite(0);
 	SDL_RenderCopy(screen, fieldSheet.getTexture(), &src, &dst);
 
+    DrawScore(screen);
+
 	middle_wall.Draw(screen);
 	playerOne.Draw(screen);
     playerTwo.Draw(screen);
@@ -138,7 +141,25 @@ void MainState::Draw(SDL_Renderer* screen) {
 	SDL_RenderPresent(screen);
 
 }
-
+void MainState::DrawScore(SDL_Renderer* screen){
+    SDL_Rect dst;
+    SDL_Rect src;
+	dst.x = (WIDTH/3)-numberSheet.getSWidth();
+	dst.y = (HEIGHT-numberSheet.getSHeight())/2;
+	dst.w = numberSheet.getSWidth();
+	dst.h = numberSheet.getSHeight();
+	src = numberSheet.getSprite(leftScore/10);
+    SDL_RenderCopy(screen, numberSheet.getTexture(),&src,&dst);
+    dst.x = (WIDTH/3);
+    src = numberSheet.getSprite(leftScore%10);
+    SDL_RenderCopy(screen, numberSheet.getTexture(),&src,&dst);
+    dst.x = (WIDTH*2/3)-numberSheet.getSWidth();
+    src = numberSheet.getSprite(rightScore/10);
+    SDL_RenderCopy(screen, numberSheet.getTexture(),&src,&dst);
+    dst.x = (WIDTH*2/3);
+    src = numberSheet.getSprite(rightScore%10);
+    SDL_RenderCopy(screen, numberSheet.getTexture(),&src,&dst);
+}
 bool MainState::check_collision(Entity * A, Entity * B){
 	//The sides of the rectangles
 	float leftA, leftB;

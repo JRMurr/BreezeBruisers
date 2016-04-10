@@ -10,13 +10,14 @@
 #include "../Wall.h"
 #include "../Disk.h"
 #include "../Goal.h"
-#include <vector> //used for list of entities 
+#include <vector> //used for list of entities
 
 class MainState : public GameState {
     private:
 		int totalTicks;
 		// The sprite sheet
 		SpriteSheet fieldSheet;
+		SpriteSheet numberSheet;
 		// Player
 		Player playerOne;
 		Player playerTwo;
@@ -47,7 +48,7 @@ class MainState : public GameState {
         void Event(StateManager*, SDL_Event);
         void Update(StateManager*, int);
         void Draw(SDL_Renderer*);
-
+        void DrawScore(SDL_Renderer*);
         // Retrieve the instance
         static MainState* Instance() {
             static MainState instance;

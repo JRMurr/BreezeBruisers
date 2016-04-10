@@ -15,6 +15,8 @@ class SpriteSheet
         void init(const char*, int tw, int th, int sw, int sh);
         virtual ~SpriteSheet();
 
+        int getSWidth();
+        int getSHeight();
         void addAnim(std::string, Animation);
         Animation* getAnim(std::string);
         SDL_Rect getSprite(int num);

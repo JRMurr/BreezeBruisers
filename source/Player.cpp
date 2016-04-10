@@ -159,7 +159,7 @@ void Player::handle_event(SDL_Event e){
 		move_player(tx,ty);
 	else {
 		//has disk so check for throw button
-		if (keystates[inputs[THROW]]) {
+		if (keystates[inputs[THROW]] ||  SDL_GameControllerGetButton(control, SDL_CONTROLLER_BUTTON_A)) {
 			if (x < WIDTH / 2 && tx < 0)
 				tx = 0; //dont throw behine on left
 			if (x > WIDTH / 2 && tx >0)

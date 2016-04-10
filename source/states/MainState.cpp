@@ -1,6 +1,9 @@
 #include "../../include/states/MainState.h"
 #include "../../include/Define.h"
 #include <iostream>
+
+
+#define WAIT_TIME 500
 MainState::MainState() {
 	middle_wall.Init(WIDTH / 2 - 10, 0, 20, HEIGHT);
 	eList.push_back(&middle_wall);
@@ -42,6 +45,8 @@ MainState::MainState() {
 
 	fieldSheet.init("resources/field.png", 960, 540, 960, 540);
 	numberSheet.init("resources/numbers.png",320,64,32,64);
+
+	
 }
 
 void MainState::Init(SDL_Renderer *screen) {
@@ -63,6 +68,8 @@ void MainState::Init(SDL_Renderer *screen) {
 	//tmp disk stuff
 	leftScore = 0, rightScore = 0;
 	disk.Init(0, HEIGHT / 2 - playerOne.get_size().height/2 +3, 0, 0);
+	playerOne.wait(WAIT_TIME);
+	playerTwo.wait(WAIT_TIME);
 }
 
 void MainState::reset() {
@@ -83,6 +90,9 @@ void MainState::reset() {
 		disk.Init(0, HEIGHT / 2 - playerOne.get_size().height / 2, 0, 0);
 	else
 		disk.Init(WIDTH - playerTwo.get_size().width + 1, HEIGHT / 2 - playerTwo.get_size().height / 2, 0, 0);
+
+	playerOne.wait(WAIT_TIME);
+	playerTwo.wait(WAIT_TIME);
 }
 
 void MainState::Cleanup() {

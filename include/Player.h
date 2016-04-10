@@ -6,6 +6,8 @@
 #include "characters/Character.h"
 #include "Disk.h"
 
+
+
 enum generic_input {
 	UP,
 	DOWN,
@@ -25,7 +27,7 @@ class Player : public Entity {
 		//bool has_disk; //player will act differntly when holding disk
 		Disk* disk;
 		bool is_dashing; //check to make sure player doesnt break out of dash animation
-		float dash_distance_travled; //used to keep track of how long the dash has been going
+		float time_dashing; //used to keep track of how long the dash has been going
 
 		float throw_speed;	  //base throw speed of the character
 		float time_disk_held; //used as modifer to make disk thrown slower the longer its held
@@ -48,6 +50,7 @@ class Player : public Entity {
 		void setInputs(SDL_Scancode*);
 		entity_type get_type();
 		void throw_disk(float xInput, float yInput);
+		void dash(float xInput, float yInput);
 		//void player_dash(float input_dir_x, float input_dir_y, int ticks);
 };
 

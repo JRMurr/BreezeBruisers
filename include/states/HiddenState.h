@@ -9,6 +9,7 @@
 #include "../Entity.h"
 #include "../Wall.h"
 #include "../Disk.h"
+#include "../Goal.h"
 #include <vector> //used for list of entities
 
 class HiddenState : public GameState {
@@ -22,6 +23,8 @@ class HiddenState : public GameState {
 		Player playerOne;
 
 		Disk disk;
+		// "Goal"
+		Goal goals[2];
 		// "SCORE"
 		int score;
         //Singleton

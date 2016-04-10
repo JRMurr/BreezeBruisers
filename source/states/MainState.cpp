@@ -35,8 +35,8 @@ MainState::MainState() {
 
 	// initialize the goals
 	// Left then right
-	goals[0].Init(-1, 0, 1, HEIGHT);
-	goals[1].Init(WIDTH, 0, 1, HEIGHT);
+	goals[0].Init(-DISK_WIDTH/2-1, 0, 1, HEIGHT);
+	goals[1].Init(WIDTH + DISK_WIDTH/2, 0, 1, HEIGHT);
 
 	disk.setScore(&leftScore, &rightScore);
 
@@ -48,7 +48,7 @@ void MainState::Init(SDL_Renderer *screen) {
 	totalTicks = 0;
 
 	playerOne.Init(0, (HEIGHT - playerOne.get_size().height)/2, 0);
-	playerTwo.Init(400, (HEIGHT - playerTwo.get_size().height) / 2, 0);
+	playerTwo.Init(400, (HEIGHT - playerTwo.get_size().height) / 2, 1);
 	if (!playerTwo.using_controller()) {
 		SDL_Scancode inputs[SPECIAL + 1] = {
 			SDL_SCANCODE_UP,
@@ -66,7 +66,6 @@ void MainState::Init(SDL_Renderer *screen) {
 }
 
 void MainState::reset() {
-	printf("Player 1: %d Player 2: %d\n", leftScore, rightScore);
 	playerOne.Init(0, (HEIGHT - playerOne.get_size().height) / 2, 0);
 	playerTwo.Init(400, (HEIGHT - playerTwo.get_size().height) / 2, 0);
 	if (!playerTwo.using_controller()) {

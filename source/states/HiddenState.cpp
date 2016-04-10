@@ -26,6 +26,11 @@ void HiddenState::Init(SDL_Renderer *screen) {
 	playerOne.Init(0, 136, 0);
 	eList.push_back(&playerOne);
 
+	goals[0].Init(-1, 0, 1, HEIGHT);
+	goals[1].Init(WIDTH, 0, 1, HEIGHT);
+	eList.push_back(&goals[0]);
+	eList.push_back(&goals[1]);
+
 
 	//tmp disk stuff
 	float angle = (rand() % (360))* 3.14159265 / 180;

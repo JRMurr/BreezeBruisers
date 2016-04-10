@@ -19,6 +19,7 @@ class HiddenState : public GameState {
 		int nextX, nextY;
 		// The sprite sheet
 		SpriteSheet fieldSheet;
+		SpriteSheet numberSheet;
 		// Player
 		Player playerOne;
 
@@ -44,6 +45,7 @@ class HiddenState : public GameState {
         void Event(StateManager*, SDL_Event);
         void Update(StateManager*, int);
         void Draw(SDL_Renderer*);
+        void DrawScore(SDL_Renderer*);
 
         // Retrieve the instance
         static HiddenState* Instance() {

@@ -5,6 +5,7 @@
 #include <cstdlib>
 HiddenState::HiddenState() {
 	fieldSheet.init("resources/field.png", 960, 540, 960, 540);
+	numberSheet.init("resources/numbers.png",320,64,32,64);
 }
 
 void HiddenState::Init(SDL_Renderer *screen) {
@@ -100,6 +101,7 @@ void HiddenState::Draw(SDL_Renderer* screen) {
 	SDL_Rect src = fieldSheet.getSprite(0);
 	SDL_RenderCopy(screen, fieldSheet.getTexture(), &src, &dst);
 
+    DrawScore(screen);
     for(int i = 0; i < eList.size(); i++){
         eList[i]->Draw(screen);
 	}
@@ -160,4 +162,18 @@ bool HiddenState::check_collision(Entity * A, Entity * B){
 
 	//If none of the sides from A are outside B
 	return true;
+}
+void HiddenState::DrawScore(SDL_Renderer* screen){
+    SDL_Rect dst;
+    SDL_Rect src;
+	dst.x = (WIDTH/2)-numberSheet.getSWidth();
+	dst.y = (HEIGHT-numberSheet.getSHeight())/2;
+	dst.w = numberSheet.getSWidth();
+	dst.h = numberSheet.getSHeight();
+	src = numberSheet.getSprite(discCounter/10);
+    SDL_RenderCopy(screen, numberSheet.getTexture(),&src,&dst);
+    dst.x = (WIDTH/2);
+    src = numberSheet.getSprite(discCounter%10);
+    SDL_RenderCopy(screen, numberSheet.getTexture(),&src,&dst);
+
 }

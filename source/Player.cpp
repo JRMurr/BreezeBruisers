@@ -6,6 +6,8 @@
 
 #define TMP_THROW_SPEED 400
 
+#define DASH_DURATION 125	//.125 secs
+
 Player::Player() {
 
 }
@@ -17,7 +19,7 @@ void Player::Init(float x, float y, int character) {
 
 	// TODO actual character sprite sheet
 	Character c = Character::CharArray[this->character];
-	sheet.init(c.sheetPath, c.width*8, c.height*8, c.width, c.height);
+	sheet.init(c.sheetPath, c.width * 8, c.height * 8, c.width, c.height);
 
 	initAnimations();
 
@@ -27,7 +29,7 @@ void Player::Init(float x, float y, int character) {
 	//has_disk = false;
 	Disk* disk = NULL;
 	time_disk_held = 0;
-	dash_distance_travled = 0;
+	time_dashing = 0;
 
 	xVel = 0;
 	yVel = 0;
@@ -45,73 +47,87 @@ void Player::Init(float x, float y, int character) {
 }
 
 void Player::move_player(float input_dir_x, float input_dir_y) {
-	if (disk)
-		return; //dont move when has disk
-	//if (is_dashing) {
-
-		//!!!FIX BEFORE ADDING DASHING SHIT WONT WORK YO PUT IN UPDATE!!!!!!!
-
-		/*do dash stuff
-		if (dash_distance_travled < dash_distance) {
-			//only do stuff if still need to move more
-			float x_distance = input_dir_x * dash_speed;
-			float y_distance = input_dir_y * dash_speed;
-			dash_distance_travled += (float)sqrt(pow(x_distance, 2) + pow(y_distance, 2)); //based pythag thereom, good shit right there (chorus right there)
-			xVel += x_distance;
-			yVel += y_distance;
-		}
-		else {
-			//reset dash variables since dash distance has been covered
-			dash_distance_travled = 0;
-			is_dashing = false;
-		}
-	}
-	else*/ {
+	if (disk || time_dashing >0)
+		return; //dont move when has disk or is dashing
 	//regular movement
 	//Normalize input
-		float l = sqrt(input_dir_x*input_dir_x + input_dir_y*input_dir_y);
-		if (l != 0) {
-			input_dir_x /= l;
-			input_dir_y /= l;
-		}
-		Character c = Character::CharArray[character];
-		xVel = input_dir_x * c.walkSpeed;	// TODO get walk speed from character array
-		yVel = input_dir_y * c.walkSpeed;
-
-		//currentAnimation = sheet.getAnim("RUNUP");
-
-		if (xVel == 0 && yVel == 0) {
-			if (x >= WIDTH / 2)
-				currentAnimation = sheet.getAnim("IDLELEFT");
-			if (x< WIDTH / 2)
-				currentAnimation = sheet.getAnim("IDLERIGHT");
-		}
-		if (yVel < 0)
-			currentAnimation = sheet.getAnim("RUNUP");
-		if (yVel > 0)
-			currentAnimation = sheet.getAnim("RUNDOWN");
-		if (xVel < 0)
-			currentAnimation = sheet.getAnim("RUNLEFT");
-		if (xVel > 0)
-			currentAnimation = sheet.getAnim("RUNRIGHT");
-		if (xVel == 0 && yVel == 0 && currentAnimation == sheet.getAnim("RUNRIGHT"))
-			currentAnimation = sheet.getAnim("IDLERIGHT");
-		if (xVel == 0 && yVel == 0 && currentAnimation == sheet.getAnim("RUNLEFT"))
-			currentAnimation = sheet.getAnim("IDLELEFT");
-
+	float l = sqrt(input_dir_x*input_dir_x + input_dir_y*input_dir_y);
+	if (l != 0) {
+		input_dir_x /= l;
+		input_dir_y /= l;
 	}
+	Character c = Character::CharArray[character];
+	xVel = input_dir_x * c.walkSpeed;	// TODO get walk speed from character array
+	yVel = input_dir_y * c.walkSpeed;
+
+	//currentAnimation = sheet.getAnim("RUNUP");
+
+	if (xVel == 0 && yVel == 0) {
+		if (x >= WIDTH / 2)
+			currentAnimation = sheet.getAnim("IDLELEFT");
+		if (x < WIDTH / 2)
+			currentAnimation = sheet.getAnim("IDLERIGHT");
+	}
+	if (yVel < 0)
+		currentAnimation = sheet.getAnim("RUNUP");
+	if (yVel > 0)
+		currentAnimation = sheet.getAnim("RUNDOWN");
+	if (xVel < 0)
+		currentAnimation = sheet.getAnim("RUNLEFT");
+	if (xVel > 0)
+		currentAnimation = sheet.getAnim("RUNRIGHT");
+	if (xVel == 0 && yVel == 0 && currentAnimation == sheet.getAnim("RUNRIGHT"))
+		currentAnimation = sheet.getAnim("IDLERIGHT");
+	if (xVel == 0 && yVel == 0 && currentAnimation == sheet.getAnim("RUNLEFT"))
+		currentAnimation = sheet.getAnim("IDLELEFT");
 }
 
-void Player::on_collision(Entity* other_ptr, int ticks){
+void Player::dash(float input_dir_x, float input_dir_y) {
+	if (time_dashing > 0 || disk)
+		return;//do nothing if already dashing or has disk
+	if (input_dir_x == 0 && input_dir_y == 0)
+		return;
+	//Normalize input
+	float l = sqrt(input_dir_x*input_dir_x + input_dir_y*input_dir_y);
+	if (l != 0) {
+		input_dir_x /= l;
+		input_dir_y /= l;
+	}
+	Character c = Character::CharArray[character];
+	xVel = input_dir_x * c.dashSpeed;	
+	yVel = input_dir_y * c.dashSpeed;
+
+	if (xVel == 0 && yVel == 0) {
+		if (x >= WIDTH / 2)
+			currentAnimation = sheet.getAnim("IDLELEFT");
+		if (x < WIDTH / 2)
+			currentAnimation = sheet.getAnim("IDLERIGHT");
+	}
+	if (yVel < 0)
+		currentAnimation = sheet.getAnim("RUNUP");
+	if (yVel > 0)
+		currentAnimation = sheet.getAnim("RUNDOWN");
+	if (xVel < 0)
+		currentAnimation = sheet.getAnim("RUNLEFT");
+	if (xVel > 0)
+		currentAnimation = sheet.getAnim("RUNRIGHT");
+	if (xVel == 0 && yVel == 0 && currentAnimation == sheet.getAnim("RUNRIGHT"))
+		currentAnimation = sheet.getAnim("IDLERIGHT");
+	if (xVel == 0 && yVel == 0 && currentAnimation == sheet.getAnim("RUNLEFT"))
+		currentAnimation = sheet.getAnim("IDLELEFT");
+	time_dashing = 1; //initalset
+}
+
+void Player::on_collision(Entity* other_ptr, int ticks) {
 	entity_type other_type = other_ptr->get_type();
-	if(other_type == DISK) {
+	if (other_type == DISK) {
 		Disk* tmp = dynamic_cast<Disk*>(other_ptr);
 		if (tmp->can_grab()) {
 			//colides with disk
-
+			time_dashing = 0;
 			if (x >= WIDTH / 2)
 				currentAnimation = sheet.getAnim("IDLELEFT");
-			if (x< WIDTH / 2)
+			if (x < WIDTH / 2)
 				currentAnimation = sheet.getAnim("IDLERIGHT");
 
 			//hide disk
@@ -119,7 +135,7 @@ void Player::on_collision(Entity* other_ptr, int ticks){
 			xVel = 0;
 			yVel = 0;
 		}
-		
+
 	}
 	else {
 		x -= xVel*(ticks / 1000.f);
@@ -127,43 +143,51 @@ void Player::on_collision(Entity* other_ptr, int ticks){
 	}
 }
 
-void Player::handle_event(SDL_Event e){
+void Player::handle_event(SDL_Event e) {
 
 	const Uint8 *keystates = SDL_GetKeyboardState(NULL);
 
-    float tx=0, ty=0;
-    if(control){
-        int xAxis = SDL_GameControllerGetAxis(control, SDL_CONTROLLER_AXIS_LEFTX);
-        int yAxis = SDL_GameControllerGetAxis(control, SDL_CONTROLLER_AXIS_LEFTY);
-        if(yAxis >= 10000)
-            ty = 1;
-        if(yAxis <= -10000)
-            ty = -1;
-        if(xAxis >= 10000)
-            tx = 1;
-        if(xAxis <= -10000)
-            tx = -1;
-    }
-    else{
-        if (keystates[inputs[UP]]) {
-            ty-=1;
-        }
-        if (keystates[inputs[RIGHT]]) {
-            tx+=1;
-        }
-        if (keystates[inputs[LEFT]]) {
-            tx-=1;
-        }
-        if (keystates[inputs[DOWN]]) {
-            ty+=1;
-        }
-    }
+	float tx = 0, ty = 0;
+	if (control) {
+		int xAxis = SDL_GameControllerGetAxis(control, SDL_CONTROLLER_AXIS_LEFTX);
+		int yAxis = SDL_GameControllerGetAxis(control, SDL_CONTROLLER_AXIS_LEFTY);
+		if (yAxis >= 10000)
+			ty = 1;
+		if (yAxis <= -10000)
+			ty = -1;
+		if (xAxis >= 10000)
+			tx = 1;
+		if (xAxis <= -10000)
+			tx = -1;
+	}
+	else {
+		if (keystates[inputs[UP]]) {
+			ty -= 1;
+		}
+		if (keystates[inputs[RIGHT]]) {
+			tx += 1;
+		}
+		if (keystates[inputs[LEFT]]) {
+			tx -= 1;
+		}
+		if (keystates[inputs[DOWN]]) {
+			ty += 1;
+		}
+	}
 
-	if(!disk)//does not have disk
-		move_player(tx,ty);
+	if (!disk) {//does not have disk
+		if (time_dashing == 0) {
+			if ((e.type == SDL_KEYDOWN && e.key.keysym.sym == inputs[LOB]) || 
+				(e.type == SDL_CONTROLLERBUTTONDOWN && e.cbutton.button == SDL_CONTROLLER_BUTTON_B && SDL_GameControllerGetButton(control, SDL_CONTROLLER_BUTTON_B)))
+				dash(tx, ty);
+			else
+				move_player(tx, ty);
+		}
+			
+	}
 	else {
 		//has disk so check for throw button
-		if (keystates[inputs[THROW]] ||  SDL_GameControllerGetButton(control, SDL_CONTROLLER_BUTTON_A)) {
+		if (keystates[inputs[THROW]] || SDL_GameControllerGetButton(control, SDL_CONTROLLER_BUTTON_A)) {
 			throw_disk(tx, ty);
 		}
 	}
@@ -190,7 +214,7 @@ void Player::throw_disk(float tx, float ty) {
 		x_throw_speed = 100; //add some x dir so it doesnt go perfectly vertical
 
 	if (y_throw_speed == 0 && x_throw_speed == 0)
-		x_throw_speed = TMP_THROW_SPEED / 3 ; //if not holding throw horizontal
+		x_throw_speed = TMP_THROW_SPEED / 3; //if not holding throw horizontal
 	if (x > WIDTH / 2 && x_throw_speed > 0)
 		x_throw_speed *= -1;
 
@@ -211,11 +235,11 @@ void Player::Update(int ticks) {
 		//printf("anim- %d \n",animTime);
 		if (x <= 0)
 			x = 0;
-		if (x>WIDTH - width)
+		if (x > WIDTH - width)
 			x = WIDTH - width;
 		if (y <= 0)
 			y = 0;
-		if (y>HEIGHT - height)
+		if (y > HEIGHT - height)
 			y = HEIGHT - height;
 	}
 	else {
@@ -226,6 +250,17 @@ void Player::Update(int ticks) {
 		}
 	}
 
+	if (time_dashing > 0) {
+		//dash checks
+		if (time_dashing < DASH_DURATION)
+			time_dashing += ticks;
+		else {
+			time_dashing = 0;
+			xVel = 0;
+			yVel = 0;
+		}
+			
+	}
 	animTime += ticks;
 
 }
@@ -242,13 +277,16 @@ void Player::Draw(SDL_Renderer *screen) {
 	dst.w = width;
 	dst.h = height;
 	SDL_Rect src = sheet.getSprite(currentAnimation->getFrame(animTime));
-	SDL_SetTextureColorMod(sheet.getTexture(), 255, 255, 255);
+	if(time_dashing > 0)
+		SDL_SetTextureColorMod(sheet.getTexture(), 255, 0, 0);
+	else
+		SDL_SetTextureColorMod(sheet.getTexture(), 255, 255, 255);
 	SDL_RenderCopy(screen, sheet.getTexture(), &src, &dst);
 }
 
-void Player::initAnimations(){
+void Player::initAnimations() {
 
-    Animation IdleRightAnim;
+	Animation IdleRightAnim;
 	IdleRightAnim.init("IDLERIGHT");
 	IdleRightAnim.addAnim(0, 7, 150);
 	sheet.addAnim("IDLERIGHT", IdleRightAnim);
@@ -273,7 +311,7 @@ void Player::initAnimations(){
 	RunDownAnim.addAnim(48, 50, 200);
 	sheet.addAnim("RUNDOWN", RunDownAnim);
 
-    Animation RunUpAnim;
+	Animation RunUpAnim;
 	RunUpAnim.init("RUNUP");
 	RunUpAnim.addAnim(56, 58, 200);
 	sheet.addAnim("RUNUP", RunUpAnim);

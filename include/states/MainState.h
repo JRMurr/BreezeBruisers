@@ -37,6 +37,8 @@ class MainState : public GameState {
     public:
         Mix_Chunk* hitOne = NULL;
         Mix_Chunk* hitTwo = NULL;
+        Mix_Chunk* scoreMusic = NULL;
+        Mix_Music* bgmusic = NULL;
         // Init and clean up
 		void Init(SDL_Renderer*);
 		void reset();

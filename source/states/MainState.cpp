@@ -48,7 +48,10 @@ MainState::MainState() {
 
 	/*hitOne = Mix_LoadWAV("resources/jump3.wav");
 	hitTwo = Mix_LoadWAV("resources/jump2.wav");*/
-
+	scoreMusic = Mix_LoadWAV("resources/Pickup_Coin3.wav");
+	bgmusic = Mix_LoadMUS( "resources/music-loop.wav" );
+	Mix_VolumeMusic(20);
+	Mix_PlayMusic( bgmusic, -1 );
 
 }
 
@@ -101,6 +104,8 @@ void MainState::reset() {
 }
 
 void MainState::Cleanup() {
+    Mix_FreeMusic(bgmusic);
+    Mix_FreeChunk(scoreMusic);
 }
 
 void MainState::Pause() {}
@@ -131,6 +136,7 @@ void MainState::Update(StateManager* game, int ticks) {
 
 	if (disk.scored()) {
 		serve = disk.get_size().x < WIDTH / 2;
+		Mix_PlayChannel(-1, scoreMusic, 0);
 		reset();
 	}
 	if (leftScore >= SCORE_LIMIT || rightScore >= SCORE_LIMIT) {

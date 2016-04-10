@@ -6,6 +6,8 @@
 
 #define TMP_THROW_SPEED 400
 
+#define THRESHOLD .1f
+
 #define DASH_DURATION 125	//.125 secs
 
 
@@ -203,12 +205,8 @@ void Player::handle_event(SDL_Event e) {
 }
 
 void Player::throw_disk(float tx, float ty) {
-	if (x < WIDTH / 2 && tx < 0)
-		tx = 0; //dont throw behine on left
-	if (x > WIDTH / 2 && tx >0)
-		tx = 0; //dont throw behind on right
 
-    float throwSpeed = TMP_THROW_SPEED*((float) (MAX_TIME_HOLD_DISK-time_disk_held))/MAX_TIME_HOLD_DISK;
+    float throwSpeed = Character::CharArray[character].throwSpeed*((float) (MAX_TIME_HOLD_DISK-time_disk_held))/MAX_TIME_HOLD_DISK;
 
 	float x_throw_speed;
 	float y_throw_speed;
@@ -222,6 +220,25 @@ void Player::throw_disk(float tx, float ty) {
         x_throw_speed = tx;
         y_throw_speed = ty;
     }
+	// if magnitude of axises are below threshold ignore
+	if (x_throw_speed < 0) {
+		x_throw_speed = x_throw_speed > -THRESHOLD ? 0 : x_throw_speed;
+	}
+	else {
+		x_throw_speed = x_throw_speed < THRESHOLD ? 0 : x_throw_speed;
+	}
+	if (y_throw_speed < 0) {
+		y_throw_speed = y_throw_speed > -THRESHOLD ? 0 : y_throw_speed;
+	}
+	else {
+		y_throw_speed = y_throw_speed < THRESHOLD ? 0 : y_throw_speed;
+	}
+
+	if (x < WIDTH / 2 && tx < 0)
+		tx = 0; //dont throw behind on left
+	if (x > WIDTH / 2 && tx >0)
+		tx = 0; //dont throw behind on right
+
     float l = sqrt(x_throw_speed*x_throw_speed + y_throw_speed*y_throw_speed);
     if (l != 0) {
         x_throw_speed /= l;
@@ -238,7 +255,7 @@ void Player::throw_disk(float tx, float ty) {
 		x_throw_speed = 100; //add some x dir so it doesnt go perfectly vertical
 
 	if (y_throw_speed == 0 && x_throw_speed == 0)
-		x_throw_speed = TMP_THROW_SPEED / 3; //if not holding throw horizontal
+		x_throw_speed = Character::CharArray[character].throwSpeed / 3; //if not holding throw horizontal
 	if (x > WIDTH / 2 && x_throw_speed > 0)
 		x_throw_speed *= -1;
 

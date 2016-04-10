@@ -48,8 +48,8 @@ void Disk::on_collision(Entity* other_ptr, int) {
 	}
 	else if (other_type == GOAL) {
 		//score stuff
-		xVel = 0;
-		yVel = 0;
+		//xVel = 0;
+		//yVel = 0;
 
 		reset = true;
 
@@ -57,6 +57,13 @@ void Disk::on_collision(Entity* other_ptr, int) {
 			(*RScore)++;
 		else
 			(*LScore)++;
+
+		// Bounce off goals to make hidden game work
+		if (xVel < 0)
+			x = other_ptr->get_size().x + other_ptr->get_size().width;
+		else
+			x = other_ptr->get_size().x - width;
+		xVel *= -1;
 	}
 	else if (other_type == DISK){
 
@@ -102,14 +109,14 @@ void Disk::Update(int ticks) {
 			// Rest the disk y if out of bounds
 			y = y < 0 ? 0 : HEIGHT - height;
 		}
-		if(x<0){
+		/*if(x<0){
             xVel*=-1;
             x = 0;
 		}
 		if(x>WIDTH-width){
             xVel*=-1;
             x = WIDTH-width;
-		}
+		}*/
 
 
 

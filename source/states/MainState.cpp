@@ -48,7 +48,7 @@ void MainState::Init(SDL_Renderer *screen) {
 	totalTicks = 0;
 
 	playerOne.Init(0, (HEIGHT - playerOne.get_size().height)/2, 0);
-	playerTwo.Init(400, (HEIGHT - playerTwo.get_size().height) / 2, 0);
+	playerTwo.Init(400, (HEIGHT - playerTwo.get_size().height) / 2, 1);
 	if (!playerTwo.using_controller()) {
 		SDL_Scancode inputs[SPECIAL + 1] = {
 			SDL_SCANCODE_UP,

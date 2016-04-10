@@ -1,5 +1,7 @@
 #include "../include/Disk.h"
 #include "../include/Define.h"
+
+#define SPEED_THRESHOLD 100
 Disk::Disk() {
 	xVel = 0;
 	yVel = 0;
@@ -96,6 +98,14 @@ entity_type Disk::get_type(){
 
 void Disk::Update(int ticks) {
 	if (!on_player) {
+		if (xVel < SPEED_THRESHOLD && xVel > 0) {
+			//going right
+			xVel = SPEED_THRESHOLD;
+		}
+		else if (xVel > -SPEED_THRESHOLD && xVel < 0) {
+			//going left
+			xVel = -SPEED_THRESHOLD;
+		}
 		if (y < 0 || y > HEIGHT - height) {
 			//flip velocity if went over edges
 			yVel *= -1;

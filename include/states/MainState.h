@@ -9,6 +9,7 @@
 #include "../Entity.h"
 #include "../Wall.h"
 #include "../Disk.h"
+#include "../Goal.h"
 #include <vector> //used for list of entities 
 
 class MainState : public GameState {
@@ -21,9 +22,13 @@ class MainState : public GameState {
 		Player playerTwo;
 		// Middle wall
 		Wall middle_wall;
-
+		// The disk
 		Disk disk;
-
+		// The goals
+		Goal goals[2];
+		int leftScore, rightScore;
+		// Serve
+		bool serve;
         //Singleton
         MainState();
 		//list of entites
@@ -31,6 +36,7 @@ class MainState : public GameState {
     public:
         // Init and clean up
 		void Init(SDL_Renderer*);
+		void reset();
         void Cleanup();
 
         // Pause and resume

@@ -34,6 +34,7 @@ void HiddenState::Init(SDL_Renderer *screen) {
 
 
 	disk.Init(220, 150, cos(angle)*250, sin(angle)*250);
+	disk.setScore(&score, &score);
 	eList.push_back(&disk);
 	discCounter = 1;
 }
@@ -55,6 +56,7 @@ void HiddenState::Update(StateManager* game, int ticks) {
         Disk* d = new Disk;
         float angle = (rand() % (360))* 3.14159265 / 180;
         d->Init(nextX,nextY, cos(angle)*250, sin(angle)*250);
+		d->setScore(&score, &score);
         nextX = rand() % 430;
         nextY = rand() % 280;
         eList.push_back(d);

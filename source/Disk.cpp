@@ -5,6 +5,15 @@ Disk::Disk() {
 	yVel = 0;
 	this->width = DISK_WIDTH;
 	this->height = DISK_HEIGHT;
+	LScore = NULL;
+	RScore = NULL;
+
+	sheet.init("resources/disc.png", 96, 96, 48, 48);
+	Animation Idle;
+	Idle.init("IDLE");
+	Idle.addAnim(0, 2, 50);
+	sheet.addAnim("IDLE", Idle);
+	currentAnimation = sheet.getAnim("IDLE");
 }
 
 void Disk::Init(float x, float y, float xVel, float yVel) {
@@ -14,12 +23,9 @@ void Disk::Init(float x, float y, float xVel, float yVel) {
 	this->yVel = yVel;
 	this->on_player = false;
 
-	sheet.init("resources/disc.png", 96, 96, 48, 48);
-	Animation Idle;
-	Idle.init("IDLE");
-	Idle.addAnim(0, 2, 50);
-	sheet.addAnim("IDLE", Idle);
 	currentAnimation = sheet.getAnim("IDLE");
+
+	reset = false;
 }
 
 void Disk::on_collision(Entity* other_ptr, int) {
@@ -41,6 +47,13 @@ void Disk::on_collision(Entity* other_ptr, int) {
 		//score stuff
 		xVel = 0;
 		yVel = 0;
+
+		reset = true;
+
+		if (other_ptr->get_size().x < WIDTH / 2)
+			(*RScore)++;
+		else
+			(*LScore)++;
 	}
 	else if (other_type == DISK){
 
@@ -101,4 +114,13 @@ void Disk::Update(int ticks) {
 		animTime += ticks;
 	}
 	
+}
+
+void Disk::setScore(int *ls, int *rs) {
+	LScore = ls;
+	RScore = rs;
+}
+
+bool Disk::scored() {
+	return reset;
 }

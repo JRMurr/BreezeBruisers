@@ -12,6 +12,10 @@ class Disk : public Entity {
 		float xVel;
 		float yVel;
 		bool on_player; //used when collides with player so it wont be drawn
+		// Pointers to the players scores
+		int *LScore, *RScore;
+		// if someone scored
+		bool reset;
 	public:
 		Disk();
 		void Init(float x, float y, float xVel, float yVel);
@@ -19,6 +23,8 @@ class Disk : public Entity {
 		void Draw(SDL_Renderer*);
 		void on_collision(Entity* other, int);
 		entity_type get_type();
+		void setScore(int*, int*);
+		bool scored();
 };
 
 #endif 

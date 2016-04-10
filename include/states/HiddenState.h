@@ -22,7 +22,8 @@ class HiddenState : public GameState {
 		Player playerOne;
 
 		Disk disk;
-
+		// "SCORE"
+		int score;
         //Singleton
         HiddenState();
 		//list of entites

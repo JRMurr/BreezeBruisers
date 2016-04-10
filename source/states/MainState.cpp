@@ -2,43 +2,52 @@
 #include "../../include/Define.h"
 #include <iostream>
 MainState::MainState() {
+	middle_wall.Init(WIDTH / 2 - 10, 0, 20, HEIGHT);
+	eList.push_back(&middle_wall);
+	bool pone = true;
+	for (int i = 0; i < SDL_NumJoysticks(); i++){
+		if (SDL_IsGameController(i)){
+			if (pone){
+				playerOne.control = SDL_GameControllerOpen(i);
+				if (playerOne.control){
+					pone = false;
+				}
+				else{
+					printf("Error with controller\n");
+				}
+			}
+			else{
+				playerTwo.control = SDL_GameControllerOpen(i);
+				if (playerTwo.control){
+					break;
+				}
+				else{
+					printf("Error with controller\n");
+				}
+			}
+		}
+	}
+	eList.push_back(&playerOne);
+	eList.push_back(&playerTwo);
+	eList.push_back(&goals[0]);
+	eList.push_back(&goals[1]);
+	eList.push_back(&disk);
+
+	// initialize the goals
+	// Left then right
+	goals[0].Init(-1, 0, 1, HEIGHT);
+	goals[1].Init(WIDTH, 0, 1, HEIGHT);
+
+	disk.setScore(&leftScore, &rightScore);
+
 	fieldSheet.init("resources/field.png", 960, 540, 960, 540);
 }
 
 void MainState::Init(SDL_Renderer *screen) {
 	totalTicks = 0;
-	middle_wall.Init(WIDTH / 2 - 10, 0, 20, HEIGHT);
-	eList.push_back(&middle_wall);
-	bool pone = true;
-	for(int i = 0; i < SDL_NumJoysticks(); i++){
-        if(SDL_IsGameController(i)){
-            if(pone){
-                playerOne.control = SDL_GameControllerOpen(i);
-                if(playerOne.control){
-                    pone = false;
-                }
-                else{
-                    printf("Error with controller\n");
-                }
-            }
-            else{
-                playerTwo.control = SDL_GameControllerOpen(i);
-                if(playerTwo.control){
-                    break;
-                }
-                else{
-                    printf("Error with controller\n");
-                }
-            }
-        }
-	}
-	playerOne.Init(0, 0, 0);
-	eList.push_back(&playerOne);
-	playerTwo.Init(400,0,0);
-	eList.push_back(&playerTwo);
-	//tmp disk stuff
-	disk.Init(5, HEIGHT / 2, 20, 100);
-	eList.push_back(&disk);
+	
+	playerOne.Init(0, (HEIGHT - playerOne.get_size().height)/2, 0);
+	playerTwo.Init(400, (HEIGHT - playerTwo.get_size().height) / 2, 0);
 	if (!playerTwo.using_controller()) {
 		SDL_Scancode inputs[SPECIAL + 1] = {
 			SDL_SCANCODE_UP,
@@ -50,7 +59,32 @@ void MainState::Init(SDL_Renderer *screen) {
 		// TODO other keys
 		playerTwo.setInputs(inputs);
 	}
+	//tmp disk stuff
+	leftScore = 0, rightScore = 0;
+	disk.Init(0, HEIGHT / 2 - playerOne.get_size().height/2, 20, 100);
 }
+
+void MainState::reset() {
+	printf("Player 1: %d Player 2: %d\n", leftScore, rightScore);
+	playerOne.Init(0, (HEIGHT - playerOne.get_size().height) / 2, 0);
+	playerTwo.Init(400, (HEIGHT - playerTwo.get_size().height) / 2, 0);
+	if (!playerTwo.using_controller()) {
+		SDL_Scancode inputs[SPECIAL + 1] = {
+			SDL_SCANCODE_UP,
+			SDL_SCANCODE_DOWN,
+			SDL_SCANCODE_LEFT,
+			SDL_SCANCODE_RIGHT,
+			SDL_SCANCODE_RSHIFT
+		};
+		// TODO other keys
+		playerTwo.setInputs(inputs);
+	}
+	if (serve)
+		disk.Init(0, HEIGHT / 2 - playerOne.get_size().height / 2, 20, 100);
+	else
+		disk.Init(WIDTH - playerTwo.get_size().width + 1, HEIGHT / 2 - playerTwo.get_size().height / 2, 20, 100);
+}
+
 void MainState::Cleanup() {
 }
 
@@ -78,6 +112,11 @@ void MainState::Update(StateManager* game, int ticks) {
 				//std::cout << "dank" << "\n";
 			}
 		}
+	}
+
+	if (disk.scored()) {
+		serve = disk.get_size().x < WIDTH / 2;
+		reset();
 	}
 }
 

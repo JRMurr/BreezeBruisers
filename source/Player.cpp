@@ -279,6 +279,8 @@ void Player::Draw(SDL_Renderer *screen) {
 	SDL_Rect src = sheet.getSprite(currentAnimation->getFrame(animTime));
 	if(time_dashing > 0)
 		SDL_SetTextureColorMod(sheet.getTexture(), 255, 0, 0);
+	else if(disk)
+		SDL_SetTextureColorMod(sheet.getTexture(), 150, 150, 150);
 	else
 		SDL_SetTextureColorMod(sheet.getTexture(), 255, 255, 255);
 	SDL_RenderCopy(screen, sheet.getTexture(), &src, &dst);

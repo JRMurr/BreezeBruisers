@@ -232,7 +232,7 @@ void Player::throw_disk(float tx, float ty) {
 
 	if(x_throw_speed < 0 && x < WIDTH/2)
         x_throw_speed = 0;
-    if(x_throw_speed<0 && x > WIDTH/2)
+    if(x_throw_speed > 0 && x > WIDTH/2)
         x_throw_speed = 0;
 	if (y_throw_speed != 0 && x_throw_speed == 0)
 		x_throw_speed = 100; //add some x dir so it doesnt go perfectly vertical
@@ -254,7 +254,7 @@ void Player::Update(int ticks) {
 		time_to_wait -= ticks;
 		return;
 	}
-		
+
 	if (!disk) {//does not have disk
 		time_disk_held = 0;
 		x += (xVel * ticks) / 1000.f; //ticks in ms so dived by 1000 for pixels per second
@@ -287,7 +287,7 @@ void Player::Update(int ticks) {
 			time_dashing = 0;
 			xVel = 0;
 			yVel = 0;
-			wait(50);
+			wait(WAIT_TIME);
 		}
 
 	}
@@ -308,22 +308,22 @@ void Player::Draw(SDL_Renderer *screen) {
 	dst.h = height;
 	SDL_Rect src = sheet.getSprite(currentAnimation->getFrame(animTime));
 	if(time_dashing > 0)
-		SDL_SetTextureColorMod(sheet.getTexture(), 255, 0, 0);
+		SDL_SetTextureColorMod(sheet.getTexture(), 255, 100, 100);
 	else if(disk)
 		SDL_SetTextureColorMod(sheet.getTexture(), 150, 150, 150);
 	else
 		SDL_SetTextureColorMod(sheet.getTexture(), 255, 255, 255);
-	
+
 	SDL_RenderCopy(screen, sheet.getTexture(), &src, &dst);
 
 	if(time_dashing>0){
-        SDL_SetTextureColorMod(sheet.getTexture(), 255, 0, 0);
+        SDL_SetTextureColorMod(sheet.getTexture(), 255, 100, 100);
         dst.x = dashStartX;
         dst.y = dashStartY;
         SDL_RenderCopy(screen, sheet.getTexture(), &src, &dst);
 	}
 	if(time_dashing>DASH_DURATION/2){
-        SDL_SetTextureColorMod(sheet.getTexture(), 255, 0, 0);
+        SDL_SetTextureColorMod(sheet.getTexture(), 255, 100, 100);
         dst.x = (dashEndX-dashStartX)/2 + dashStartX;
         dst.y = (dashEndY-dashStartY)/2 + dashStartY;
         SDL_RenderCopy(screen, sheet.getTexture(), &src, &dst);

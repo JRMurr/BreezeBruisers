@@ -32,6 +32,8 @@ class Player : public Entity {
 		float throw_speed;	  //base throw speed of the character
 		float time_disk_held; //used as modifer to make disk thrown slower the longer its held
 
+		float time_to_wait;
+
 		float xVel;
 		float yVel;
 
@@ -55,6 +57,7 @@ class Player : public Entity {
 		entity_type get_type();
 		void throw_disk(float xInput, float yInput);
 		void dash(float xInput, float yInput);
+		void wait(int num_ticks); 
 		//void player_dash(float input_dir_x, float input_dir_y, int ticks);
 };
 

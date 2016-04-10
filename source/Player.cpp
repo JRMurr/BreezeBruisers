@@ -8,6 +8,8 @@
 
 #define DASH_DURATION 125	//.125 secs
 
+
+#define WAIT_TIME 150
 Player::Player() {
 
 }
@@ -150,7 +152,8 @@ void Player::on_collision(Entity* other_ptr, int ticks) {
 }
 
 void Player::handle_event(SDL_Event e) {
-
+	if (time_to_wait > 0)
+		return; //if waiting do nothing
 	const Uint8 *keystates = SDL_GetKeyboardState(NULL);
 
 	float tx = 0, ty = 0;
@@ -247,6 +250,11 @@ void Player::throw_disk(float tx, float ty) {
 }
 
 void Player::Update(int ticks) {
+	if (time_to_wait > 0) {
+		time_to_wait -= ticks;
+		return;
+	}
+		
 	if (!disk) {//does not have disk
 		time_disk_held = 0;
 		x += (xVel * ticks) / 1000.f; //ticks in ms so dived by 1000 for pixels per second
@@ -279,6 +287,7 @@ void Player::Update(int ticks) {
 			time_dashing = 0;
 			xVel = 0;
 			yVel = 0;
+			wait(50);
 		}
 
 	}
@@ -298,11 +307,13 @@ void Player::Draw(SDL_Renderer *screen) {
 	dst.w = width;
 	dst.h = height;
 	SDL_Rect src = sheet.getSprite(currentAnimation->getFrame(animTime));
-	if(time_dashing > 0){
-        SDL_SetTextureColorMod(sheet.getTexture(), 255, 0, 0);
-    }
+	if(time_dashing > 0)
+		SDL_SetTextureColorMod(sheet.getTexture(), 255, 0, 0);
+	else if(disk)
+		SDL_SetTextureColorMod(sheet.getTexture(), 150, 150, 150);
 	else
 		SDL_SetTextureColorMod(sheet.getTexture(), 255, 255, 255);
+	
 	SDL_RenderCopy(screen, sheet.getTexture(), &src, &dst);
 
 	if(time_dashing>0){
@@ -360,4 +371,7 @@ bool Player::using_controller() {
 void Player::setInputs(SDL_Scancode *newInputs) {
 	for (int n = 0; n < SPECIAL + 1; n++)
 		inputs[n] = newInputs[n];
+}
+void Player::wait(int num_ticks) {
+	time_to_wait = num_ticks;
 }

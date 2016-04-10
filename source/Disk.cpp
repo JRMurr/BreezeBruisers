@@ -89,6 +89,7 @@ void Disk::Draw(SDL_Renderer *screen) {
             src = sheet.getSprite(currentAnimation->getFrame(animTime));
         else
         {
+
             int a=0;
             float ang = atan2(yVel,xVel)*180/3.14;
             if(ang > 0){
@@ -169,7 +170,7 @@ void Disk::Update(int ticks) {
 			//crossed middle going right
 			grababble = true;
 		}
-		else if (x < WIDTH / 2 && xVel < 0) {
+		else if (x < WIDTH / 2 - width && xVel < 0) {
 			grababble = true;
 		}
 

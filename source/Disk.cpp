@@ -1,5 +1,6 @@
 #include "../include/Disk.h"
 #include "../include/Define.h"
+#include <math.h>
 Disk::Disk() {
 	xVel = 0;
 	yVel = 0;
@@ -8,7 +9,7 @@ Disk::Disk() {
 	LScore = NULL;
 	RScore = NULL;
 
-	sheet.init("resources/disc.png", 96, 96, 48, 48);
+	sheet.init("resources/disc.png", 144, 144, 48, 48);
 	Animation Idle;
 	Idle.init("IDLE");
 	Idle.addAnim(0, 2, 50);
@@ -28,7 +29,7 @@ void Disk::Init(float x, float y, float xVel, float yVel) {
 	reset = false;
 	grababble = false;
 	if (xVel == 0 && yVel == 0)
-		grababble = true; //if not moving its grabbable 
+		grababble = true; //if not moving its grabbable
 }
 
 void Disk::on_collision(Entity* other_ptr, int) {
@@ -74,7 +75,30 @@ void Disk::Draw(SDL_Renderer *screen) {
 		dst.y = y;
 		dst.w = width;
 		dst.h = height;
-		SDL_Rect src = sheet.getSprite(currentAnimation->getFrame(animTime));
+		SDL_Rect src;
+		if(currentAnimation!=NULL)
+            src = sheet.getSprite(currentAnimation->getFrame(animTime));
+        else
+        {
+            int a;
+            float ang = atan2(yVel,xVel)*180/3.14;
+            if(ang > 0){
+                if(ang < 22.5) a = 3;
+                if(ang >= 22.5 && ang < 67.5) a = 5;
+                if(ang >= 67.5 && ang < 112.5) a = 6;
+                if(ang >= 112.5 && ang < 157.5) a = 4;
+                if(ang >= 157.5 && ang < 180) a = 3;
+            }
+            else{
+                if(ang > -22.5) a = 3;
+                if(ang <= -22.5 && ang > -67.5) a = 4;
+                if(ang <= -67.5 && ang > -112.5) a = 6;
+                if(ang <= -112.5 && ang > -157.5) a = 5;
+                if(ang <= -157.5 && ang > -180) a = 3;
+            }
+
+            src = sheet.getSprite(a);
+        }
 		SDL_RenderCopy(screen, sheet.getTexture(), &src, &dst);
 
 		/*
@@ -111,6 +135,13 @@ void Disk::Update(int ticks) {
             x = WIDTH-width;
 		}
 
+        float speed = sqrt(xVel*xVel + yVel*yVel);
+        if(speed > 200){
+            currentAnimation = NULL;
+        }
+        else{
+            currentAnimation = sheet.getAnim("IDLE");
+        }
 
 
 		x += (xVel * ticks) / 1000.f; //ticks in ms so dived by 1000 for pixels per second
@@ -127,7 +158,7 @@ void Disk::Update(int ticks) {
 
 		animTime += ticks;
 	}
-	
+
 }
 
 

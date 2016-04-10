@@ -3,7 +3,7 @@
 #include <iostream>
 
 #define WAIT_TIME 500
-#define SCORE_LIMIT 15
+#define SCORE_LIMIT 11
 MainState::MainState() {
 	middle_wall.Init(WIDTH / 2 - 10, 0, 20, HEIGHT);
 	eList.push_back(&middle_wall);

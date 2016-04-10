@@ -46,6 +46,9 @@ MainState::MainState() {
 	fieldSheet.init("resources/field.png", 960, 540, 960, 540);
 	numberSheet.init("resources/numbers.png",320,64,32,64);
 
+	/*hitOne = Mix_LoadWAV("resources/jump3.wav");
+	hitTwo = Mix_LoadWAV("resources/jump2.wav");*/
+
 
 }
 

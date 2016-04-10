@@ -16,6 +16,10 @@ int StateManager::Init() {
         printf( "Unable to init SDL: %s\n", SDL_GetError() );
         return 1;
     }
+    if(SDL_Init(SDL_INIT_AUDIO) < 0){
+        printf("Unable to init SDL Audio: %s\n", SDL_GetError());
+        return 1;
+    }
     if(SDL_Init(SDL_INIT_GAMECONTROLLER)<0){
         printf( "Unable to init gamecontroller: %s\n", SDL_GetError() );
         return 1;
@@ -24,7 +28,11 @@ int StateManager::Init() {
 		printf("Unable to init SDL image: %s\n", IMG_GetError());
 		return 1;
 	}
-
+    if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
+    {
+        printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
+        return 1;
+    }
     window = SDL_CreateWindow("", SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED, WIDTH * SCALE, HEIGHT * SCALE, SDL_WINDOW_SHOWN);
     if(window == NULL) {
         printf("Could not create window: %s\n", SDL_GetError());

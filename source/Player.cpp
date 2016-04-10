@@ -10,10 +10,16 @@
 
 #define DASH_DURATION 125	//.125 secs
 
-
 #define WAIT_TIME 150
-Player::Player() {
 
+Player::Player() {
+    catchSound1 = Mix_LoadWAV("resources/jump2.wav");
+    catchSound2 = Mix_LoadWAV("resources/jump3.wav");
+}
+
+Player::~Player() {
+    Mix_FreeChunk(catchSound1);
+    Mix_FreeChunk(catchSound2);
 }
 
 void Player::Init(float x, float y, int character) {
@@ -43,8 +49,8 @@ void Player::Init(float x, float y, int character) {
 	inputs[DOWN] = SDL_SCANCODE_S;
 	inputs[LEFT] = SDL_SCANCODE_A;
 	inputs[RIGHT] = SDL_SCANCODE_D;
-	inputs[THROW] = SDL_SCANCODE_C;
-	inputs[LOB] = SDL_SCANCODE_V;
+	inputs[THROW] = SDL_SCANCODE_SPACE;
+	inputs[LOB] = SDL_SCANCODE_LSHIFT;
 	inputs[SPECIAL] = SDL_SCANCODE_LSHIFT;
 
 	currentAnimation = sheet.getAnim("IDLERIGHT");
@@ -148,6 +154,8 @@ void Player::on_collision(Entity* other_ptr, int ticks) {
 			disk = tmp;
 			xVel = 0;
 			yVel = 0;
+
+			Mix_PlayChannel(-1, catchSound1, 0);
 
 			//wait(50);
 		}

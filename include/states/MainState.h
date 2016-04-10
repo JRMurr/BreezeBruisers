@@ -35,6 +35,8 @@ class MainState : public GameState {
 		//list of entites
 		std::vector<Entity*> eList;
     public:
+        Mix_Chunk* hitOne = NULL;
+        Mix_Chunk* hitTwo = NULL;
         // Init and clean up
 		void Init(SDL_Renderer*);
 		void reset();

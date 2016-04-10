@@ -2,6 +2,7 @@
 #define PLAYER_H_INCLUDED
 
 #include <SDL.h>
+#include <SDL_mixer.h>
 #include "Entity.h"
 #include "characters/Character.h"
 #include "Disk.h"
@@ -41,9 +42,13 @@ class Player : public Entity {
         float dashStartY;
         float dashEndX;
         float dashEndY;
+
+        Mix_Chunk *catchSound1;
+        Mix_Chunk *catchSound2;
 	public:
 		// Initialize player
 		Player();
+		~Player();
 		SDL_GameController* control;
 		void Init(float, float, int);
 		void Update(int ticks);
@@ -57,7 +62,7 @@ class Player : public Entity {
 		entity_type get_type();
 		void throw_disk(float xInput, float yInput);
 		void dash(float xInput, float yInput);
-		void wait(int num_ticks); 
+		void wait(int num_ticks);
 		//void player_dash(float input_dir_x, float input_dir_y, int ticks);
 };
 

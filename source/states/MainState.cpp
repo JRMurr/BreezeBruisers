@@ -128,7 +128,7 @@ void MainState::Update(StateManager* game, int ticks) {
 		serve = disk.get_size().x < WIDTH / 2;
 		reset();
 	}
-	if (leftScore >= SCORE_LIMIT && rightScore >= SCORE_LIMIT) {
+	if (leftScore >= SCORE_LIMIT || rightScore >= SCORE_LIMIT) {
 		game->PopState(1);
 	}
 }

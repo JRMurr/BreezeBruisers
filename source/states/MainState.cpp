@@ -46,7 +46,7 @@ MainState::MainState() {
 	fieldSheet.init("resources/field.png", 960, 540, 960, 540);
 	numberSheet.init("resources/numbers.png",320,64,32,64);
 
-	
+
 }
 
 void MainState::Init(SDL_Renderer *screen) {
@@ -56,11 +56,12 @@ void MainState::Init(SDL_Renderer *screen) {
 	playerTwo.Init(400, (HEIGHT - playerTwo.get_size().height) / 2, 1);
 	if (!playerTwo.using_controller()) {
 		SDL_Scancode inputs[SPECIAL + 1] = {
-			SDL_SCANCODE_UP,
-			SDL_SCANCODE_DOWN,
-			SDL_SCANCODE_LEFT,
-			SDL_SCANCODE_RIGHT,
-			SDL_SCANCODE_RSHIFT
+			SDL_SCANCODE_I,
+			SDL_SCANCODE_K,
+			SDL_SCANCODE_J,
+			SDL_SCANCODE_L,
+			SDL_SCANCODE_N,
+			SDL_SCANCODE_B
 		};
 		// TODO other keys
 		playerTwo.setInputs(inputs);
@@ -77,11 +78,12 @@ void MainState::reset() {
 	playerTwo.Init(400, (HEIGHT - playerTwo.get_size().height) / 2, 0);
 	if (!playerTwo.using_controller()) {
 		SDL_Scancode inputs[SPECIAL + 1] = {
-			SDL_SCANCODE_UP,
-			SDL_SCANCODE_DOWN,
-			SDL_SCANCODE_LEFT,
-			SDL_SCANCODE_RIGHT,
-			SDL_SCANCODE_RSHIFT
+			SDL_SCANCODE_I,
+			SDL_SCANCODE_K,
+			SDL_SCANCODE_J,
+			SDL_SCANCODE_L,
+			SDL_SCANCODE_N,
+			SDL_SCANCODE_B
 		};
 		// TODO other keys
 		playerTwo.setInputs(inputs);

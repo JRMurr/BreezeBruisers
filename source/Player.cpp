@@ -41,8 +41,8 @@ void Player::Init(float x, float y, int character) {
 	inputs[DOWN] = SDL_SCANCODE_S;
 	inputs[LEFT] = SDL_SCANCODE_A;
 	inputs[RIGHT] = SDL_SCANCODE_D;
-	inputs[THROW] = SDL_SCANCODE_SPACE;
-	inputs[LOB] = SDL_SCANCODE_E;
+	inputs[THROW] = SDL_SCANCODE_C;
+	inputs[LOB] = SDL_SCANCODE_V;
 	inputs[SPECIAL] = SDL_SCANCODE_LSHIFT;
 
 	currentAnimation = sheet.getAnim("IDLERIGHT");

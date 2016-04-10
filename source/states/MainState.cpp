@@ -2,8 +2,8 @@
 #include "../../include/Define.h"
 #include <iostream>
 
-
 #define WAIT_TIME 500
+#define SCORE_LIMIT 15
 MainState::MainState() {
 	middle_wall.Init(WIDTH / 2 - 10, 0, 20, HEIGHT);
 	eList.push_back(&middle_wall);
@@ -127,6 +127,9 @@ void MainState::Update(StateManager* game, int ticks) {
 	if (disk.scored()) {
 		serve = disk.get_size().x < WIDTH / 2;
 		reset();
+	}
+	if (leftScore >= SCORE_LIMIT && rightScore >= SCORE_LIMIT) {
+		game->PopState(1);
 	}
 }
 

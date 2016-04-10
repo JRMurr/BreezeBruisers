@@ -235,9 +235,9 @@ void Player::throw_disk(float tx, float ty) {
 	}
 
 	if (x < WIDTH / 2 && tx < 0)
-		tx = 0; //dont throw behind on left
+		x_throw_speed = 0; //dont throw behind on left
 	if (x > WIDTH / 2 && tx >0)
-		tx = 0; //dont throw behind on right
+		x_throw_speed = 0; //dont throw behind on right
 
     float l = sqrt(x_throw_speed*x_throw_speed + y_throw_speed*y_throw_speed);
     if (l != 0) {
@@ -259,10 +259,11 @@ void Player::throw_disk(float tx, float ty) {
 	if (x > WIDTH / 2 && x_throw_speed > 0)
 		x_throw_speed *= -1;
 
-	float x_spawn = x+width/2 - disk->get_size().width/2;
+	int dir = x < WIDTH / 2 ? 1 : 0;
+	float x_spawn = width*dir + (1-2*dir)*disk->get_size().width/2;
 	//if (x > WIDTH / 2)
 		//x_spawn = x - disk->get_size().width - 15;
-	disk->Init(x_spawn, y, x_throw_speed, y_throw_speed);
+	disk->Init(x+x_spawn-(x > WIDTH/2 ? 10 : 0), y+10, x_throw_speed, y_throw_speed);
 	disk = NULL;
 }
 

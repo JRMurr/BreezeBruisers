@@ -115,8 +115,13 @@ void MainState::Pause() {}
 void MainState::Resume() {}
 
 void MainState::Event(StateManager* game, SDL_Event event) {
+    if(event.type == SDL_KEYDOWN){
+        if(event.key.keysym.scancode == SDL_SCANCODE_R){
+            game->PopState(1);
+        }
+    }
     switch(event.type){
-    default: playerOne.handle_event(event); playerTwo.handle_event(event);
+        default: playerOne.handle_event(event); playerTwo.handle_event(event);
     }
 }
 

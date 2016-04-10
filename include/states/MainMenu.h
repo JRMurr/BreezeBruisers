@@ -6,6 +6,7 @@
 #include "../STexture.h"
 #include "../utilities/Button.h"
 #include "MainState.h"
+#include "HiddenState.h"
 #include <vector>
 
 #define BUTTON_NUMBER 2

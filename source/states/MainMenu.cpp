@@ -70,6 +70,8 @@ void MainMenu::Event(StateManager *game, SDL_Event event) {
 				buttonIndex = (buttonIndex + 1) % BUTTON_NUMBER;
 			else if (code == SDL_SCANCODE_RETURN)
 				press = true;
+            else if(code == SDL_SCANCODE_H)
+                game->PushState(HiddenState::Instance());
 	}
 }
 // update TODO idk yet

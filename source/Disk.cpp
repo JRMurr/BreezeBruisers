@@ -42,7 +42,10 @@ void Disk::on_collision(Entity* other_ptr, int) {
 		xVel = 0;
 		yVel = 0;
 	}
-	else {
+	else if (other_type == DISK){
+
+
+
 		//how in the fuck did 2 disks get spawned and collide
 	}
 }
@@ -81,6 +84,14 @@ void Disk::Update(int ticks) {
 			yVel *= -1;
 			// Rest the disk y if out of bounds
 			y = y < 0 ? 0 : HEIGHT - height;
+		}
+		if(x<0){
+            xVel*=-1;
+            x = 0;
+		}
+		if(x>WIDTH-width){
+            xVel*=-1;
+            x = WIDTH-width;
 		}
 
 		x += (xVel * ticks) / 1000.f; //ticks in ms so dived by 1000 for pixels per second

@@ -26,11 +26,14 @@ void Disk::Init(float x, float y, float xVel, float yVel) {
 	currentAnimation = sheet.getAnim("IDLE");
 
 	reset = false;
+	grababble = false;
+	if (xVel == 0 && yVel == 0)
+		grababble = true; //if not moving its grabbable 
 }
 
 void Disk::on_collision(Entity* other_ptr, int) {
 	entity_type other_type = other_ptr->get_type();
-	if (other_type == PLAYER) {
+	if (other_type == PLAYER && grababble) {
 		//set velocity to 0 and wait for player to do stuff
 		xVel = 0;
 		yVel = 0;
@@ -108,12 +111,28 @@ void Disk::Update(int ticks) {
             x = WIDTH-width;
 		}
 
+
+
 		x += (xVel * ticks) / 1000.f; //ticks in ms so dived by 1000 for pixels per second
 		y += (yVel * ticks) / 1000.f;
+
+		//update grabable
+		if (x > WIDTH / 2 && xVel > 0) {
+			//crossed middle going right
+			grababble = true;
+		}
+		else if (x < WIDTH / 2 && xVel < 0) {
+			grababble = true;
+		}
 
 		animTime += ticks;
 	}
 	
+}
+
+
+bool Disk::can_grab() {
+	return grababble;
 }
 
 void Disk::setScore(int *ls, int *rs) {

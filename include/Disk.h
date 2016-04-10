@@ -16,6 +16,7 @@ class Disk : public Entity {
 		int *LScore, *RScore;
 		// if someone scored
 		bool reset;
+		bool grababble;
 	public:
 		Disk();
 		void Init(float x, float y, float xVel, float yVel);
@@ -25,6 +26,7 @@ class Disk : public Entity {
 		entity_type get_type();
 		void setScore(int*, int*);
 		bool scored();
+		bool can_grab();
 };
 
 #endif 

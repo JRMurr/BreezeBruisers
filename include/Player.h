@@ -47,6 +47,7 @@ class Player : public Entity {
 		bool using_controller();
 		void setInputs(SDL_Scancode*);
 		entity_type get_type();
+		void throw_disk(float xInput, float yInput);
 		//void player_dash(float input_dir_x, float input_dir_y, int ticks);
 };
 

@@ -61,7 +61,7 @@ void MainState::Init(SDL_Renderer *screen) {
 	}
 	//tmp disk stuff
 	leftScore = 0, rightScore = 0;
-	disk.Init(0, HEIGHT / 2 - playerOne.get_size().height/2, 20, 100);
+	disk.Init(0, HEIGHT / 2 - playerOne.get_size().height/2 +3, 0, 0);
 }
 
 void MainState::reset() {
@@ -80,9 +80,9 @@ void MainState::reset() {
 		playerTwo.setInputs(inputs);
 	}
 	if (serve)
-		disk.Init(0, HEIGHT / 2 - playerOne.get_size().height / 2, 20, 100);
+		disk.Init(0, HEIGHT / 2 - playerOne.get_size().height / 2, 0, 0);
 	else
-		disk.Init(WIDTH - playerTwo.get_size().width + 1, HEIGHT / 2 - playerTwo.get_size().height / 2, 20, 100);
+		disk.Init(WIDTH - playerTwo.get_size().width + 1, HEIGHT / 2 - playerTwo.get_size().height / 2, 0, 0);
 }
 
 void MainState::Cleanup() {

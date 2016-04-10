@@ -105,17 +105,21 @@ void Player::move_player(float input_dir_x, float input_dir_y) {
 void Player::on_collision(Entity* other_ptr, int ticks){
 	entity_type other_type = other_ptr->get_type();
 	if(other_type == DISK) {
-		//colides with disk
+		Disk* tmp = dynamic_cast<Disk*>(other_ptr);
+		if (tmp->can_grab()) {
+			//colides with disk
 
-		if (x >= WIDTH / 2)
-			currentAnimation = sheet.getAnim("IDLELEFT");
-		if (x< WIDTH / 2)
-			currentAnimation = sheet.getAnim("IDLERIGHT");
+			if (x >= WIDTH / 2)
+				currentAnimation = sheet.getAnim("IDLELEFT");
+			if (x< WIDTH / 2)
+				currentAnimation = sheet.getAnim("IDLERIGHT");
 
-		//hide disk
-		disk = dynamic_cast<Disk*>(other_ptr);
-		xVel = 0;
-		yVel = 0;
+			//hide disk
+			disk = tmp;
+			xVel = 0;
+			yVel = 0;
+		}
+		
 	}
 	else {
 		x -= xVel*(ticks / 1000.f);
@@ -160,37 +164,41 @@ void Player::handle_event(SDL_Event e){
 	else {
 		//has disk so check for throw button
 		if (keystates[inputs[THROW]] ||  SDL_GameControllerGetButton(control, SDL_CONTROLLER_BUTTON_A)) {
-			if (x < WIDTH / 2 && tx < 0)
-				tx = 0; //dont throw behine on left
-			if (x > WIDTH / 2 && tx >0)
-				tx = 0; //dont throw behind on right
-
-			float x_throw_speed = 0;
-			float y_throw_speed = 0;
-			if (tx != 0) {
-				x_throw_speed = (tx * TMP_THROW_SPEED) * ((float)(MAX_TIME_HOLD_DISK - time_disk_held) / MAX_TIME_HOLD_DISK);
-			}
-				
-			if (ty != 0) {
-				y_throw_speed = (ty * TMP_THROW_SPEED) * ((float)(MAX_TIME_HOLD_DISK - time_disk_held) / MAX_TIME_HOLD_DISK);
-			}
-				
-
-			if (y_throw_speed != 0 && x_throw_speed == 0)
-				x_throw_speed = 100; //add some x dir so it doesnt go perfectly vertical
-
-			if (y_throw_speed == 0 && x_throw_speed == 0)
-				x_throw_speed = TMP_THROW_SPEED/2; //if not holding throw horizontal
-			if (x > WIDTH / 2 && x_throw_speed > 0)
-				x_throw_speed *= -1;
-
-			float x_spawn = x + width + disk->get_size().width + 15;
-			if (x > WIDTH / 2)
-				x_spawn = x - disk->get_size().width - 15;
-			disk->Init(x_spawn, y, x_throw_speed, y_throw_speed);
-			disk = NULL;
+			throw_disk(tx, ty);
 		}
 	}
+}
+
+void Player::throw_disk(float tx, float ty) {
+	if (x < WIDTH / 2 && tx < 0)
+		tx = 0; //dont throw behine on left
+	if (x > WIDTH / 2 && tx >0)
+		tx = 0; //dont throw behind on right
+
+	float x_throw_speed = 0;
+	float y_throw_speed = 0;
+	if (tx != 0) {
+		x_throw_speed = (tx * TMP_THROW_SPEED) * ((float)(MAX_TIME_HOLD_DISK - time_disk_held) / MAX_TIME_HOLD_DISK);
+	}
+
+	if (ty != 0) {
+		y_throw_speed = (ty * TMP_THROW_SPEED) * ((float)(MAX_TIME_HOLD_DISK - time_disk_held) / MAX_TIME_HOLD_DISK);
+	}
+
+
+	if (y_throw_speed != 0 && x_throw_speed == 0)
+		x_throw_speed = 100; //add some x dir so it doesnt go perfectly vertical
+
+	if (y_throw_speed == 0 && x_throw_speed == 0)
+		x_throw_speed = TMP_THROW_SPEED / 3 ; //if not holding throw horizontal
+	if (x > WIDTH / 2 && x_throw_speed > 0)
+		x_throw_speed *= -1;
+
+	float x_spawn = x + width + disk->get_size().width + 15;
+	if (x > WIDTH / 2)
+		x_spawn = x - disk->get_size().width - 15;
+	disk->Init(x_spawn, y, x_throw_speed, y_throw_speed);
+	disk = NULL;
 }
 
 void Player::Update(int ticks) {
@@ -214,7 +222,7 @@ void Player::Update(int ticks) {
 		//has disk
 		time_disk_held += ticks;
 		if (time_disk_held > MAX_TIME_HOLD_DISK) {
-
+			throw_disk(0, 0);
 		}
 	}
 

@@ -11,7 +11,7 @@ class Disk : public Entity {
 	protected:
 		float xVel;
 		float yVel;
-		bool on_player; //used when collides with player so it wont be drawn
+		//bool on_player; //used when collides with player so it wont be drawn
 		// Pointers to the players scores
 		int *LScore, *RScore;
 		// if someone scored
@@ -27,6 +27,7 @@ class Disk : public Entity {
 		void setScore(int*, int*);
 		bool scored();
 		bool can_grab();
+		bool on_player;
 };
 
-#endif 
+#endif

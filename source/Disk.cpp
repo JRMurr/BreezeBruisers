@@ -41,6 +41,7 @@ void Disk::on_collision(Entity* other_ptr, int) {
 		xVel = 0;
 		yVel = 0;
 		on_player = true;
+		//grabbable = false;
 	}
 	else if (other_type == WALL) {
 		//add check to allow disk through middle wall but still hit obsticales that it should hit

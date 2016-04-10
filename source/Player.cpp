@@ -132,18 +132,24 @@ void Player::on_collision(Entity* other_ptr, int ticks) {
 	entity_type other_type = other_ptr->get_type();
 	if (other_type == DISK) {
 		Disk* tmp = dynamic_cast<Disk*>(other_ptr);
-		if (tmp->can_grab()) {
+		if (tmp->can_grab() && !tmp->on_player) {
 			//colides with disk
 			time_dashing = 0;
-			if (x >= WIDTH / 2)
+			if (x >= WIDTH / 2){
 				currentAnimation = sheet.getAnim("IDLELEFT");
-			if (x < WIDTH / 2)
+				x+=5;
+			}
+			if (x < WIDTH / 2){
 				currentAnimation = sheet.getAnim("IDLERIGHT");
+                x-=5;
+			}
 
 			//hide disk
 			disk = tmp;
 			xVel = 0;
 			yVel = 0;
+
+			//wait(50);
 		}
 
 	}

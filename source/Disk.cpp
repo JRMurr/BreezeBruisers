@@ -15,7 +15,7 @@ void Disk::Init(float x, float y, float xVel, float yVel) {
 	this->on_player = false;
 
 	sheet.init("resources/disc.png", 96, 96, 48, 48);
-    Animation Idle;
+	Animation Idle;
 	Idle.init("IDLE");
 	Idle.addAnim(0, 2, 50);
 	sheet.addAnim("IDLE", Idle);
@@ -52,6 +52,7 @@ void Disk::on_collision(Entity* other_ptr, int) {
 
 void Disk::Draw(SDL_Renderer *screen) {
 	if (!on_player) {
+
 		SDL_Rect dst;
 		dst.x = x;
 		dst.y = y;
@@ -99,5 +100,5 @@ void Disk::Update(int ticks) {
 
 		animTime += ticks;
 	}
-
+	
 }

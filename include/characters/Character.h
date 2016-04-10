@@ -9,6 +9,7 @@ typedef void (*Special)(void);
 // Number of characters
 enum Char_enum{
 	BREEZER1,
+	BREEZER2,
 	NUM_CHARACTERS
 };
 
@@ -22,6 +23,8 @@ struct Character {
 	int width, height;
 	// Player Movement stuff
 	float walkSpeed, dashSpeed;
+	// Throw speed
+	float throwSpeed;
 	// Special move function pointer	TODO actually figure out
 	Special spec;
 	// Array of characters used to look up character data

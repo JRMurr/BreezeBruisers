@@ -94,8 +94,14 @@ void Player::dash(float input_dir_x, float input_dir_y) {
 		input_dir_y /= l;
 	}
 	Character c = Character::CharArray[character];
-	xVel = input_dir_x * c.dashSpeed;	
+	xVel = input_dir_x * c.dashSpeed;
 	yVel = input_dir_y * c.dashSpeed;
+
+	dashStartX = x;
+	dashStartY = y;
+
+	dashEndX = x+ (xVel*DASH_DURATION)/1000.0;
+	dashEndY = y+ (yVel*DASH_DURATION)/1000.0;
 
 	if (xVel == 0 && yVel == 0) {
 		if (x >= WIDTH / 2)
@@ -177,13 +183,13 @@ void Player::handle_event(SDL_Event e) {
 
 	if (!disk) {//does not have disk
 		if (time_dashing == 0) {
-			if ((e.type == SDL_KEYDOWN && e.key.keysym.sym == inputs[LOB]) || 
+			if ((e.type == SDL_KEYDOWN && e.key.keysym.sym == inputs[LOB]) ||
 				(e.type == SDL_CONTROLLERBUTTONDOWN && e.cbutton.button == SDL_CONTROLLER_BUTTON_B && SDL_GameControllerGetButton(control, SDL_CONTROLLER_BUTTON_B)))
 				dash(tx, ty);
 			else
 				move_player(tx, ty);
 		}
-			
+
 	}
 	else {
 		//has disk so check for throw button
@@ -199,17 +205,32 @@ void Player::throw_disk(float tx, float ty) {
 	if (x > WIDTH / 2 && tx >0)
 		tx = 0; //dont throw behind on right
 
-	float x_throw_speed = 0;
-	float y_throw_speed = 0;
-	if (tx != 0) {
-		x_throw_speed = (tx * TMP_THROW_SPEED) * ((float)(MAX_TIME_HOLD_DISK - time_disk_held) / MAX_TIME_HOLD_DISK);
-	}
+    float throwSpeed = TMP_THROW_SPEED*((float) (MAX_TIME_HOLD_DISK-time_disk_held))/MAX_TIME_HOLD_DISK;
 
-	if (ty != 0) {
-		y_throw_speed = (ty * TMP_THROW_SPEED) * ((float)(MAX_TIME_HOLD_DISK - time_disk_held) / MAX_TIME_HOLD_DISK);
-	}
+	float x_throw_speed;
+	float y_throw_speed;
 
+    if(control)
+    {
+        x_throw_speed =  ((float)SDL_GameControllerGetAxis(control, SDL_CONTROLLER_AXIS_LEFTX))/32500.0;
+        y_throw_speed =  ((float)SDL_GameControllerGetAxis(control, SDL_CONTROLLER_AXIS_LEFTY))/32500.0;
+    }
+    else{
+        x_throw_speed = tx;
+        y_throw_speed = ty;
+    }
+    float l = sqrt(x_throw_speed*x_throw_speed + y_throw_speed*y_throw_speed);
+    if (l != 0) {
+        x_throw_speed /= l;
+        y_throw_speed /= l;
+    }
+	x_throw_speed*=throwSpeed;
+	y_throw_speed*=throwSpeed;
 
+	if(x_throw_speed < 0 && x < WIDTH/2)
+        x_throw_speed = 0;
+    if(x_throw_speed<0 && x > WIDTH/2)
+        x_throw_speed = 0;
 	if (y_throw_speed != 0 && x_throw_speed == 0)
 		x_throw_speed = 100; //add some x dir so it doesnt go perfectly vertical
 
@@ -218,9 +239,9 @@ void Player::throw_disk(float tx, float ty) {
 	if (x > WIDTH / 2 && x_throw_speed > 0)
 		x_throw_speed *= -1;
 
-	float x_spawn = x + width + disk->get_size().width + 15;
-	if (x > WIDTH / 2)
-		x_spawn = x - disk->get_size().width - 15;
+	float x_spawn = x+width/2 - disk->get_size().width/2;
+	//if (x > WIDTH / 2)
+		//x_spawn = x - disk->get_size().width - 15;
 	disk->Init(x_spawn, y, x_throw_speed, y_throw_speed);
 	disk = NULL;
 }
@@ -259,7 +280,7 @@ void Player::Update(int ticks) {
 			xVel = 0;
 			yVel = 0;
 		}
-			
+
 	}
 	animTime += ticks;
 
@@ -277,11 +298,26 @@ void Player::Draw(SDL_Renderer *screen) {
 	dst.w = width;
 	dst.h = height;
 	SDL_Rect src = sheet.getSprite(currentAnimation->getFrame(animTime));
-	if(time_dashing > 0)
-		SDL_SetTextureColorMod(sheet.getTexture(), 255, 0, 0);
+	if(time_dashing > 0){
+        SDL_SetTextureColorMod(sheet.getTexture(), 255, 0, 0);
+    }
 	else
 		SDL_SetTextureColorMod(sheet.getTexture(), 255, 255, 255);
 	SDL_RenderCopy(screen, sheet.getTexture(), &src, &dst);
+
+	if(time_dashing>0){
+        SDL_SetTextureColorMod(sheet.getTexture(), 255, 0, 0);
+        dst.x = dashStartX;
+        dst.y = dashStartY;
+        SDL_RenderCopy(screen, sheet.getTexture(), &src, &dst);
+	}
+	if(time_dashing>DASH_DURATION/2){
+        SDL_SetTextureColorMod(sheet.getTexture(), 255, 0, 0);
+        dst.x = (dashEndX-dashStartX)/2 + dashStartX;
+        dst.y = (dashEndY-dashStartY)/2 + dashStartY;
+        SDL_RenderCopy(screen, sheet.getTexture(), &src, &dst);
+	}
+
 }
 
 void Player::initAnimations() {

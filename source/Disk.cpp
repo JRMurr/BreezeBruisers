@@ -89,7 +89,7 @@ void Disk::Draw(SDL_Renderer *screen) {
             src = sheet.getSprite(currentAnimation->getFrame(animTime));
         else
         {
-            int a;
+            int a=0;
             float ang = atan2(yVel,xVel)*180/3.14;
             if(ang > 0){
                 if(ang < 22.5) a = 3;

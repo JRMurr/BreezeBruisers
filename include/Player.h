@@ -35,6 +35,10 @@ class Player : public Entity {
 		float xVel;
 		float yVel;
 
+        float dashStartX;
+        float dashStartY;
+        float dashEndX;
+        float dashEndY;
 	public:
 		// Initialize player
 		Player();

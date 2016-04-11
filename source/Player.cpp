@@ -211,6 +211,7 @@ void Player::handle_event(SDL_Event e) {
 
 	}
 	else {
+            printf("%d\n", keystates[inputs[THROW]]);
 		//has disk so check for throw button
 		if (keystates[inputs[THROW]] || SDL_GameControllerGetButton(control, SDL_CONTROLLER_BUTTON_A)) {
 			throw_disk(tx, ty);

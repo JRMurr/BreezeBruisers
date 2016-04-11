@@ -16,12 +16,18 @@
 					<Add directory="C:/Users/kevin_000/Desktop/Coding/C++/SDL/SDL2-2.0.4/i686-w64-mingw32/include/SDL2" />
 					<Add directory="C:/Users/kevin_000/Desktop/Coding/C++/SDL/SDL2_image-2.0.1/i686-w64-mingw32/include/SDL2" />
 					<Add directory="C:/Users/kevin_000/Desktop/Coding/C++/SDL/SDL2_mixer-2.0.1/i686-w64-mingw32/include/SDL2" />
+					<Add directory="C:/Users/Kevib/Desktop/code/SDL/SDL2-2.0.4/i686-w64-mingw32/include/SDL2" />
+					<Add directory="C:/Users/Kevib/Desktop/code/SDL/SDL2_image-2.0.1/i686-w64-mingw32/include/SDL2" />
+					<Add directory="C:/Users/Kevib/Desktop/code/SDL/SDL2_mixer-2.0.1/i686-w64-mingw32/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add option="-lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer" />
 					<Add directory="C:/Users/kevin_000/Desktop/Coding/C++/SDL/SDL2-2.0.4/i686-w64-mingw32/lib" />
 					<Add directory="C:/Users/kevin_000/Desktop/Coding/C++/SDL/SDL2_image-2.0.1/i686-w64-mingw32/lib" />
 					<Add directory="C:/Users/kevin_000/Desktop/Coding/C++/SDL/SDL2_mixer-2.0.1/i686-w64-mingw32/lib" />
+					<Add directory="C:/Users/Kevib/Desktop/code/SDL/SDL2-2.0.4/i686-w64-mingw32/lib" />
+					<Add directory="C:/Users/Kevib/Desktop/code/SDL/SDL2_image-2.0.1/i686-w64-mingw32/lib" />
+					<Add directory="C:/Users/Kevib/Desktop/code/SDL/SDL2_mixer-2.0.1/i686-w64-mingw32/lib" />
 				</Linker>
 			</Target>
 			<Target title="Release">

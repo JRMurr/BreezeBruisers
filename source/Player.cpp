@@ -49,8 +49,8 @@ void Player::Init(float x, float y, int character) {
 	inputs[DOWN] = SDL_SCANCODE_S;
 	inputs[LEFT] = SDL_SCANCODE_A;
 	inputs[RIGHT] = SDL_SCANCODE_D;
-	inputs[THROW] = SDL_SCANCODE_SPACE;
-	inputs[LOB] = SDL_SCANCODE_LSHIFT;
+	inputs[THROW] = SDL_SCANCODE_F;
+	inputs[LOB] = SDL_SCANCODE_G;
 	inputs[SPECIAL] = SDL_SCANCODE_LSHIFT;
 
 	currentAnimation = sheet.getAnim("IDLERIGHT");
@@ -202,7 +202,7 @@ void Player::handle_event(SDL_Event e) {
 
 	if (!disk) {//does not have disk
 		if (time_dashing == 0) {
-			if ((e.type == SDL_KEYDOWN && e.key.keysym.sym == inputs[LOB]) ||
+			if ((e.type == SDL_KEYDOWN && e.key.keysym.scancode == inputs[LOB]) ||
 				(e.type == SDL_CONTROLLERBUTTONDOWN && e.cbutton.button == SDL_CONTROLLER_BUTTON_B && SDL_GameControllerGetButton(control, SDL_CONTROLLER_BUTTON_B)))
 				dash(tx, ty);
 			else

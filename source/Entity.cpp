@@ -1,4 +1,4 @@
-#include "..\include\Entity.h"
+#include "../include/Entity.h"
 
 Size Entity::get_size()
 {
